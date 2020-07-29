@@ -1226,6 +1226,10 @@ pre .javascript .function {
     word-break: break-word;
   }
 }
+.post-body a {
+  color: #708090;
+  font-weight: bold;
+}
 .post-body .fancybox img {
   display: block !important;
   margin: 0 auto;
@@ -1824,7 +1828,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #90ff5e;
+  background: #527eff;
 }
 .links-of-blogroll {
   font-size: 13px;

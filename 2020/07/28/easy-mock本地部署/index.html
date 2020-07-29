@@ -79,15 +79,15 @@
 
 
 
-<meta name="description" content="如题 😆😆😆">
+<meta name="description" content="自己在本地部署easy-mock 简述">
 <meta name="keywords" content="cys">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SheSaidYes!">
-<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;10&#x2F;26&#x2F;SheSaidYes&#x2F;index.html">
+<meta property="og:title" content="easy-mock本地部署">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2020&#x2F;07&#x2F;28&#x2F;easy-mock%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2&#x2F;index.html">
 <meta property="og:site_name" content="Tpc">
-<meta property="og:description" content="如题 😆😆😆">
+<meta property="og:description" content="自己在本地部署easy-mock 简述">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-07-24T08:35:40.926Z">
+<meta property="og:updated_time" content="2020-07-29T03:29:55.360Z">
 <meta name="twitter:card" content="summary">
 
 
@@ -117,13 +117,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/10/26/SheSaidYes/"/>
+  <link rel="canonical" href="http://yoursite.com/2020/07/28/easy-mock本地部署/"/>
 
 
 
 
 
-  <title>SheSaidYes! | Tpc</title>
+  <title>easy-mock本地部署 | Tpc</title>
   
 
 
@@ -250,7 +250,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/26/SheSaidYes/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/28/easy-mock%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Tpc">
@@ -267,7 +267,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">SheSaidYes!</h1>
+          <h1 class="post-title" itemprop="name headline">easy-mock本地部署</h1>
         
 
         <div class="post-meta">
@@ -279,8 +279,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-26T22:36:00+08:00">
-                2019-10-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-28T14:53:37+08:00">
+                2020-07-28
               </time>
             
 
@@ -302,19 +302,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Daily/" itemprop="url" rel="index">
-                    <span itemprop="name">Daily</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Daily/Life/" itemprop="url" rel="index">
-                    <span itemprop="name">Life</span>
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
                   </a>
                 </span>
 
@@ -336,6 +325,10 @@
           
 
           
+              <div class="post-description">
+                  自己在本地部署easy-mock 简述
+              </div>
+          
 
         </div>
       </header>
@@ -350,8 +343,31 @@
       
 
       
-        <h3 id="如题">如题</h3>
-<p>😆😆😆</p>
+        <h3 id="easy-mock-本地部署-简述">easy-mock 本地部署 简述</h3>
+<p>安装 <a href="http://nodejs.cn/" target="_blank" rel="noopener">node</a>（&gt;=v8.9） &amp; <a href="https://www.mongodb.com/try/download/community" target="_blank" rel="noopener">MongoDB</a> （&gt;=v3.4） &amp; <a href="https://github.com/tporadowski/redis/releases" target="_blank" rel="noopener">Redis</a>（&gt;=v4.0）</p>
+<blockquote>
+<p>直接在官网下载稳定版本安装，并不用做过多的设置，并没有像网上找的需要很多配置，少踩了很多坑。</p>
+<ul>
+<li><a href="https://www.runoob.com/redis/redis-install.html" target="_blank" rel="noopener">MongoDB安装教程</a></li>
+<li><a href="https://www.runoob.com/redis/redis-install.html" target="_blank" rel="noopener">Redis安装教程</a></li>
+</ul>
+</blockquote>
+<p>安装完MongoDB 开机自启，不用主动打开</p>
+<p>Redis要主动打开</p>
+<blockquote>
+<p>基本命令：</p>
+<ul>
+<li>开启服务 <code>redis-server --service-start</code></li>
+<li>关闭服务 <code>redis-server --service-stop</code></li>
+<li>卸载服务 <code>redis-server --service-uninstall</code></li>
+<li>服务重命名 <code>redis-server --service-name server-name</code></li>
+</ul>
+</blockquote>
+<p>安装 easy-mock</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/easy-mock/easy-mock.git</span><br><span class="line">cd easy-mock</span><br><span class="line">npm install</span><br><span class="line">npm run dev</span><br></pre></td></tr></table></figure>
+<p>打开 <a href="http://localhost:7300/" target="_blank" rel="noopener">http://localhost:7300/</a><br />
+开始创建自己的mock<br />
+<i class="fab fa-500px"></i></p>
 
       
     </div>
@@ -376,8 +392,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/10/25/daily/" rel="next" title="浮躁">
-                <i class="fa fa-chevron-left"></i> 浮躁
+              <a href="/2019/10/26/SheSaidYes/" rel="next" title="SheSaidYes!">
+                <i class="fa fa-chevron-left"></i> SheSaidYes!
               </a>
             
           </div>
@@ -385,10 +401,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/07/28/easy-mock%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2/" rel="prev" title="easy-mock本地部署">
-                easy-mock本地部署 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -535,7 +547,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#如题"><span class="nav-number">1.</span> <span class="nav-text">如题</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#easy-mock-本地部署-简述"><span class="nav-number">1.</span> <span class="nav-text">easy-mock 本地部署 简述</span></a></li></ol></div>
             
 
           </div>
