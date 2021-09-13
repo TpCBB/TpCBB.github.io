@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    * {
+      padding: 0;
+      margin: 0;
+      font-size: 50px;
+    }
+    .top {
+      height: 100vh;
+      text-align: center;
+      line-height: 100vh;
+    }
+    .container {
+      position: relative;
+      height: 700vh;
+    }
+    .sticky-wrap {
+      position: sticky;
+      height: 100vh;
+      top: 0;
+    }
+    .content {
+      width: 100%;
+      position: absolute;
+      top: 0;
+      height: 100vh;      
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .text{
+        opacity: 0;
+        transform: matrix(1, 0, 0, 1, 0, 50);
+    }
+    .sh {
+      opacity: 1;
+    }
+    .show{
+        opacity: 1;
+    }
+    img{
+        opacity: 0;
+        width: 200px;
+        position: absolute;
+        top: 70vh;
+        left: 0;
+        transition: opacity  .3s;
+        right: 0;
+        margin: auto;
+    }
+  </style>
+  <script>
+    setTimeout(() => {
+      document.documentElement.scrollTop = 0;
+    }, 100);
+  </script>
+  <body>
+    <div class="container">
+      <div class="top">↓</div>
+      <section class="sticky-wrap"> 
+          <div class="content sh"> <div class="text sh">陈诗诗</div>  <img class="sh show" src="./1.jpg" alt=""></div>
+          <div class="content"><div class="text">是！</div><img src="./2.jpg" alt=""></div>
+          <div class="content"><div class="text">全宇宙超级无敌！！</div><img src="./3.jpg" alt=""></div>
+          <div class="content"><div class="text">可爱的小朋友！！</div><img src="./4.jpg" alt=""></div>
+          <div class="content ed"><div class="text ed">其实是小傻子！！</div><img class="ed" src="./5.jpg" alt=""></div>
+      </section>
+    </div>
+  </body>
+  <script>
+    window.onscroll = function (e) {
+      var scrollTop = document.documentElement.scrollTop;
+      var screenHeight = window.screen.height; // 100vh
+      var el1 = document.querySelectorAll('.content');
+      var el2 = document.querySelectorAll('.text');
+      var img = document.querySelectorAll('img')
+      //   var per =
+      var pos = parseInt((scrollTop - screenHeight) / screenHeight);
+      if (scrollTop - screenHeight > 0 && pos <= 4) {
+
+        var per = parseFloat(
+          (scrollTop - screenHeight) / screenHeight - pos
+        ).toFixed(2);
+        var translateY = 50 - 50 * per;
+
+        el2[pos].style.transform = `matrix(1, 0, 0, 1, 0, ${translateY})`;
+        // 进入
+        if (per <= 0.3 && !el2[pos].className.includes('sh')) {
+          el2[pos - 1].style.opacity = 0;
+          el2[pos].style.opacity = (per / 0.3).toFixed(2);
+        //  回滚复原
+          el2[pos].style.opacity != 0 ?  img[pos].className = 'show' :''
+        }
+        // 出去
+        if (per >= 0.7 && !el2[pos].className.includes('ed')) {
+          el2[pos].style.opacity = 1 - ((per - 0.7) / 0.3).toFixed(2);
+          el2[pos + 1].style.opacity = 0;
+          //  回滚复原
+          el2[pos + 1].style.opacity == 0 ?  img[pos+1].className = '' :''
+        }
+      }
+    };
+  </script>
+</html>
