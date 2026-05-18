@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, Tpc" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="vue3技巧">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vue3技巧">
+<meta property="og:url" content="http://yoursite.com/2025/11/12/vue3%E6%8A%80%E5%B7%A7/index.html">
+<meta property="og:site_name" content="Tpc">
+<meta property="og:description" content="vue3技巧">
+<meta property="article:published_time" content="2025-11-11T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-05-18T08:55:12.205Z">
+<meta property="article:author" content="Tpc">
+<meta property="article:tag" content="cys">
+<meta name="twitter:card" content="summary">
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2025/11/12/vue3技巧/"/>
+
+
+
+
+
+  <title>vue3技巧 | Tpc</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Tpc</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Aal lzz well</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-resume">
+          <a href="/resume/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-id-card-o"></i> <br />
+            
+            简历
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2025/11/12/vue3%E6%8A%80%E5%B7%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tpc">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/img/hsccys.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Tpc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">vue3技巧</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2025-11-12T00:00:00+08:00">
+                2025-11-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tech/" itemprop="url" rel="index">
+                    <span itemprop="name">tech</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  vue3技巧
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1>vue3 技巧</h1>
+<h2 id="1-组件自动注册"><strong>1. 组件自动注册</strong></h2>
+<p>在项目中有很多通用组件需要重复导入，以前的做法是在 main.js 中一个一个引入，然后注册为全局组件。现借助于 vite，我们完全可以这样做</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// vite.config.js</span></span><br><span class="line"><span class="keyword">import</span> Components <span class="keyword">from</span> <span class="string">"unplugin-vue-components/vite"</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  plugins: [</span><br><span class="line">    Components(&#123;</span><br><span class="line">      dirs: [<span class="string">"src/components"</span>], <span class="comment">// 指定组件目录</span></span><br><span class="line">    &#125;),</span><br><span class="line">  ],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>不用在每个文件手动导入相同组件，通过 Vite 插件自动扫描 components 目录，直接在模板中使用组件，省掉 import 语句。</p>
+<h2 id="2-图片懒加载自定义指令"><strong>2.图片懒加载自定义指令</strong></h2>
+<p>在一些重效果的项目中，首页会有很多的图片需要加载，如果一进入就开始加载，可能会导致页面展示的滞后。可以封装一个图片懒加载指令，减少首屏首页的加载时间，利用 IntersectionObserver 监听元素进入视口：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">app.directive(<span class="string">"lazy"</span>, &#123;</span><br><span class="line">  mounted(el, binding) &#123;</span><br><span class="line">    <span class="keyword">const</span> observer = <span class="keyword">new</span> IntersectionObserver(<span class="function">(<span class="params">entries</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (entries[<span class="number">0</span>].isIntersecting) &#123;</span><br><span class="line">        el.src = binding.value; <span class="comment">// 图片进入视口时加载</span></span><br><span class="line">        observer.unobserve(el);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    observer.observe(el);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>注意一定要设置图片的占位符，防止页面出现抖动。</p>
+<h2 id="3-动态-css-变量-动态-class"><strong>3.动态 CSS 变量，动态 Class</strong></h2>
+<p>在表单验证、交互反馈 等一些场景中，动态去绑定 css 变量和 class 类名是很实用的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 动态css变量 --&gt;</span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;div</span><br><span class="line">    :style&#x3D;&quot;&#123;</span><br><span class="line">      &#39;--theme-color&#39;: themeColor, &#x2F;&#x2F; JS变量转为CSS变量</span><br><span class="line">      &#39;--size&#39;: size + &#39;px&#39;,</span><br><span class="line">    &#125;&quot;</span><br><span class="line">  &gt;</span><br><span class="line">    &lt;div class&#x3D;&quot;box&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">  &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;style&gt;</span><br><span class="line">.box &#123;</span><br><span class="line">  background: var(--theme-color); &#x2F;* 使用CSS变量 *&#x2F;</span><br><span class="line">  width: var(--size);</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br></pre></td></tr></table></figure>
+<hr />
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 动态class类名 --&gt;</span><br><span class="line">&lt;script setup&gt;</span><br><span class="line">const isValid &#x3D; ref(false); &#x2F;&#x2F; 响应式状态</span><br><span class="line">&lt;&#x2F;script&gt;</span><br><span class="line"></span><br><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;!-- 根据状态添加error类 --&gt;</span><br><span class="line">  &lt;input :class&#x3D;&quot;&#123; error: !isValid &#125;&quot; &#x2F;&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;style&gt;</span><br><span class="line">input.error &#123;</span><br><span class="line">  border: 2px solid red; &#x2F;* 错误状态样式 *&#x2F;</span><br><span class="line">&#125;</span><br><span class="line">&lt;&#x2F;style&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="4-suspense-加载协调员-的巧妙调度"><strong>4.Suspense“加载协调员”的巧妙调度</strong></h2>
+<p>在 Vue3 应用时，应该遇到过这样的尴尬情况异步组件还没加载完，页面突然白屏，用户一脸懵，体验感直线下降。而 Suspense 这位“加载协调员”能帮你巧妙化解这个难题。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;Suspense&gt;</span><br><span class="line">    &lt;!-- 异步组件加载成功后展示的内容 --&gt;</span><br><span class="line">    &lt;template #default&gt; &lt;AsyncComponent &#x2F;&gt; &lt;&#x2F;template&gt;</span><br><span class="line">    &lt;!-- 异步组件加载过程中展示的占位内容 --&gt;</span><br><span class="line">    &lt;template #fallback&gt;</span><br><span class="line">      &lt;div class&#x3D;&quot;loading-spinner&quot;&gt;努力加载中，别走开~&lt;&#x2F;div&gt;</span><br><span class="line">    &lt;&#x2F;template&gt;</span><br><span class="line">  &lt;&#x2F;Suspense&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import &#123; defineAsyncComponent, Suspense &#125; from &quot;vue&quot;; &#x2F;&#x2F; 定义异步组件，只有在使用时才会加载对应的代码</span><br><span class="line">const AsyncComponent &#x3D; defineAsyncComponent(() &#x3D;&gt;</span><br><span class="line">  import(&quot;.&#x2F;AsyncComponent.vue&quot;)</span><br><span class="line">);</span><br><span class="line">export default &#123; components: &#123; Suspense, AsyncComponent &#125; &#125;;</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="5-组件传送到指定位置"><strong>5.组件传送到指定位置</strong></h2>
+<p>有时候，我们会遇到这样的需求：一个组件的逻辑在某个地方，但它的渲染位置却要在其他地方，比如模态框、下拉菜单等。Vue3 的 Teleport 组件就能轻松实现这个功能。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;!-- 将内容渲染到body末尾 --&gt;</span><br><span class="line">  &lt;Teleport to&#x3D;&quot;body&quot;&gt;</span><br><span class="line">    &lt;div class&#x3D;&quot;modal&quot; v-if&#x3D;&quot;showModal&quot;&gt; 模态框内容 &lt;&#x2F;div&gt;</span><br><span class="line">  &lt;&#x2F;Teleport&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script setup&gt;</span><br><span class="line">const showModal &#x3D; ref(false);</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+<p>这样很好的解决了父组件 overflow:hidden 导致模态框被裁剪的一些情况。</p>
+<h2 id="6-组件缓存"><strong>6.组件缓存</strong></h2>
+<p>在标签页切换的时候，一个页面需要导入多个组件，这个时候，如果不希望切换的时候，将组件初始化，可以利用 KeepAlive 组件来实现想要的效果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;!-- 缓存指定组件 --&gt;</span><br><span class="line">  &lt;KeepAlive include&#x3D;&quot;TabA,TabB&quot;&gt;</span><br><span class="line">    &lt;component :is&#x3D;&quot;currentComponent&quot; &#x2F;&gt;</span><br><span class="line">  &lt;&#x2F;KeepAlive&gt;</span><br><span class="line">&lt;&#x2F;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script setup&gt;</span><br><span class="line">import &#123; ref &#125; from &quot;vue&quot;;</span><br><span class="line">const currentComponent &#x3D; ref(&quot;TabA&quot;);</span><br><span class="line">&lt;&#x2F;script&gt;</span><br></pre></td></tr></table></figure>
+<p>配置选项：</p>
+<ul>
+<li>include：指定缓存组件</li>
+<li>max：最大缓存实例数</li>
+</ul>
+<h2 id="7-用-vueuse-库提升开发效率"><strong>7.用 VueUse 库提升开发效率</strong></h2>
+<p><a href="https://vueuse.pages.dev/" target="_blank" rel="noopener">**</a><a href="https://vueuse.pages.dev/**" target="_blank" rel="noopener">https://vueuse.pages.dev/**</a></p>
+<p>VueUse 是一个非常强大的 Vue 组合式函数库，它提供了很多实用的组合式函数，可以帮助我们快速实现各种功能，大大提升开发效率，最主要足够小巧，可以看一个列子：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 引入 VueUse 中的 useIntersectionObserver 函数</span></span><br><span class="line"><span class="keyword">import</span> &#123; useIntersectionObserver &#125; <span class="keyword">from</span> <span class="string">"@vueuse/core"</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; ref &#125; <span class="keyword">from</span> <span class="string">"vue"</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  setup() &#123;</span><br><span class="line">    <span class="comment">// 定义一个 ref 来引用 DOM 元素</span></span><br><span class="line">    <span class="keyword">const</span> target = ref(<span class="literal">null</span>);</span><br><span class="line">    <span class="comment">// 定义一个 ref 来保存元素是否可见的状态</span></span><br><span class="line">    <span class="keyword">const</span> isVisible = ref(<span class="literal">false</span>);</span><br><span class="line">    <span class="comment">// 使用 useIntersectionObserver 函数监听元素的可见性</span></span><br><span class="line">    <span class="keyword">const</span> &#123; stop &#125; = useIntersectionObserver(</span><br><span class="line">      target,</span><br><span class="line">      ([&#123; isIntersecting &#125;]) =&gt; &#123;</span><br><span class="line">        <span class="comment">// 当元素可见时，更新 isVisible 的值</span></span><br><span class="line">        isVisible.value = isIntersecting;</span><br><span class="line">        <span class="keyword">if</span> (isIntersecting) &#123;</span><br><span class="line">          <span class="comment">// 当元素可见时，可以执行一些操作，比如加载数据</span></span><br><span class="line">          <span class="built_in">console</span>.log(<span class="string">"元素可见了"</span>);</span><br><span class="line">          <span class="comment">// 停止监听</span></span><br><span class="line">          stop();</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="comment">// 配置项，threshold 表示元素可见的比例</span></span><br><span class="line">        threshold: <span class="number">0.5</span>,</span><br><span class="line">      &#125;</span><br><span class="line">    );</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      target,</span><br><span class="line">      isVisible,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  template: <span class="string">`    </span></span><br><span class="line"><span class="string">    &lt;div ref="target"&gt;      </span></span><br><span class="line"><span class="string">    &lt;!-- 根据元素的可见状态显示不同的内容 --&gt;      </span></span><br><span class="line"><span class="string">        &lt;p v-if="isVisible"&gt;元素现在可见啦&lt;/p&gt;      </span></span><br><span class="line"><span class="string">        &lt;p v-else&gt;元素还没进入可视区域哦&lt;/p&gt;    </span></span><br><span class="line"><span class="string">    &lt;/div&gt;  </span></span><br><span class="line"><span class="string">    `</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>VueUse 就像是一个百宝箱，里面有很多实用工具。在上面例子中，使用了 useIntersectionObserver 函数来监听元素的可见性，当元素进入可视区域时，就可以执行一些操作，比如加载数据。这对于实现懒加载、无限滚动等功能非常有用。</p>
+<h2 id="8-防抖元素">8. 防抖元素</h2>
+<h3 id="vue2-版本">vue2 版本</h3>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//  my-throttle.js</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * Renderless 事件节流/防抖包装组件（Vue2）。</span></span><br><span class="line"><span class="comment"> * 作用：不改变子节点结构，仅在渲染时劫持并替换其事件回调，实现统一的节流/防抖。</span></span><br><span class="line"><span class="comment"> * 使用示例：</span></span><br><span class="line"><span class="comment"> *   &lt;my-throttle :time="500" :throttle="true"&gt;</span></span><br><span class="line"><span class="comment"> *     &lt;el-button <span class="doctag">@click</span>="onClick"&gt;提交&lt;/el-button&gt;</span></span><br><span class="line"><span class="comment"> *   &lt;/my-throttle&gt;</span></span><br><span class="line"><span class="comment"> * 参数：</span></span><br><span class="line"><span class="comment"> * - time(Number)：时间窗，单位毫秒，默认 1000。</span></span><br><span class="line"><span class="comment"> * - throttle(Boolean)：true=节流，false=防抖。</span></span><br><span class="line"><span class="comment"> * 依赖：baseMethod 需提供 debounce 和 throttle 两个方法。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  name: <span class="string">"my-throttle"</span>,</span><br><span class="line">  abstract: <span class="literal">true</span>,</span><br><span class="line">  props: &#123;</span><br><span class="line">    time: &#123;</span><br><span class="line">      type: <span class="built_in">Number</span>,</span><br><span class="line">      <span class="keyword">default</span>: <span class="number">1000</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">    throttle: &#123;</span><br><span class="line">      type: <span class="built_in">Boolean</span>,</span><br><span class="line">      <span class="keyword">default</span>: <span class="literal">false</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  data() &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">  render() &#123;</span><br><span class="line">    <span class="comment">// 提示：Vue2 的 $slots 在 Vue3 中以函数形式暴露在 $scopedSlots，这里兼容 Vue2 写法。</span></span><br><span class="line">    <span class="comment">// 仅处理默认插槽的第一个子节点：若存在多个子节点，建议外部包一层。</span></span><br><span class="line">    <span class="keyword">const</span> vnode = <span class="keyword">this</span>.$slots.default ? <span class="keyword">this</span>.$slots.default[<span class="number">0</span>] : <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (vnode) &#123;</span><br><span class="line">      <span class="keyword">let</span> throttledMap = &#123;&#125;; <span class="comment">// 缓存被节流/防抖包裹后的事件处理器</span></span><br><span class="line">      <span class="keyword">let</span> listeners = vnode.data.on || vnode.componentOptions.listeners; <span class="comment">// 原生元素事件或子组件事件</span></span><br><span class="line">      <span class="keyword">let</span> _evnet = <span class="keyword">this</span>.throttle ? <span class="string">"throttle"</span> : <span class="string">"debounce"</span>; <span class="comment">// 根据 props.throttle 选择策略（变量名有拼写问题，但沿用原逻辑）</span></span><br><span class="line">      <span class="keyword">if</span> (listeners) &#123;</span><br><span class="line">        <span class="comment">// 遍历事件名（如 'click'、'input' 等），逐一包裹处理器</span></span><br><span class="line">        <span class="built_in">Object</span>.getOwnPropertyNames(listeners).forEach(<span class="function">(<span class="params">key</span>) =&gt;</span> &#123;</span><br><span class="line">          <span class="keyword">if</span> (!throttledMap[key]) &#123;</span><br><span class="line">            <span class="comment">// 通过 baseMethod 的 throttle/debounce 包裹原处理器，传入 time 与 defer</span></span><br><span class="line">            throttledMap[key] = baseMethod[_evnet](listeners[key], <span class="keyword">this</span>.time);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="comment">// 用新包裹后的处理器替换原有 listeners</span></span><br><span class="line">        <span class="built_in">Object</span>.getOwnPropertyNames(throttledMap).forEach(<span class="function">(<span class="params">key</span>) =&gt;</span> &#123;</span><br><span class="line">          listeners[key] = throttledMap[key];</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> vnode; <span class="comment">// 返回处理后的 vnode，结构不变，仅修改事件行为</span></span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// ...temeplate.vue</span><br><span class="line"><span class="tag">&lt;<span class="name">temeplate</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">my-throttle</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">"testThrottle"</span>&gt;</span>防抖按钮<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">my-throttle</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">temeplate</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="vue3">Vue3</h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;  throttle.ts</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; throttle: 一个轻量包装组件，用于给子节点的事件(on*)统一加防抖&#x2F;节流</span><br><span class="line">&#x2F;&#x2F; 彻底修复：完全避免cloneVNode，使用h函数重新创建VNode，确保事件不会重复触发</span><br><span class="line">&#x2F;&#x2F; 优化：处理默认插槽返回的所有子节点，并递归处理其子数组，保持实现简洁</span><br><span class="line">import &#123; defineComponent, h, type VNode &#125; from &quot;vue&quot;;</span><br><span class="line">import baseMethods from &quot;..&#x2F;utils&#x2F;baseMethods&quot;;</span><br><span class="line"></span><br><span class="line">type EventHandler &#x3D; (...args: any[]) &#x3D;&gt; any;</span><br><span class="line"></span><br><span class="line">export default defineComponent(&#123;</span><br><span class="line">  name: &quot;throttle&quot;,</span><br><span class="line">  props: &#123;</span><br><span class="line">    &#x2F;&#x2F; 单位时间（毫秒），用于防抖&#x2F;节流的时间窗口</span><br><span class="line">    time: &#123; type: Number, default: 1000 &#125;,</span><br><span class="line">    &#x2F;&#x2F; true&#x3D;节流；false&#x3D;防抖</span><br><span class="line">    throttle: &#123; type: Boolean, default: false &#125;,</span><br><span class="line">    &#x2F;&#x2F; 防抖&#x2F;节流的 defer 行为：根据 baseMethods 的实现</span><br><span class="line">    &#x2F;&#x2F; 一般情况下：defer&#x3D;true 表示&quot;先执行一次，后续在窗口内抑制&quot;，与常见防抖略有不同</span><br><span class="line">    defer: &#123; type: Boolean, default: true &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  setup(props, &#123; slots &#125;) &#123;</span><br><span class="line">    return () &#x3D;&gt; &#123;</span><br><span class="line">      &#x2F;&#x2F; 处理默认插槽的所有子节点；无子节点时返回 null</span><br><span class="line">      const children &#x3D; slots.default?.() ?? [];</span><br><span class="line">      if (!children.length) return null;</span><br><span class="line"></span><br><span class="line">      const method &#x3D; props.throttle ? &quot;throttle&quot; : &quot;debounce&quot;;</span><br><span class="line"></span><br><span class="line">      const createWrappedHandler &#x3D; (handler: EventHandler): EventHandler &#x3D;&gt; &#123;</span><br><span class="line">        return baseMethods[method](handler, props.time, props.defer);</span><br><span class="line">      &#125;;</span><br><span class="line"></span><br><span class="line">      const wrapEventHandlers &#x3D; (originalProps: Record&lt;string, any&gt;) &#x3D;&gt; &#123;</span><br><span class="line">        const wrappedProps: Record&lt;string, any&gt; &#x3D; &#123;&#125;;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; 复制所有属性，对事件属性进行包装</span><br><span class="line">        for (const key in originalProps) &#123;</span><br><span class="line">          const val &#x3D; originalProps[key];</span><br><span class="line"></span><br><span class="line">          if (key.startsWith(&quot;on&quot;) &amp;&amp; val) &#123;</span><br><span class="line">            &#x2F;&#x2F; 对事件属性进行包装处理</span><br><span class="line">            if (Array.isArray(val)) &#123;</span><br><span class="line">              wrappedProps[key] &#x3D; (val as EventHandler[]).map(</span><br><span class="line">                createWrappedHandler</span><br><span class="line">              );</span><br><span class="line">            &#125; else if (typeof val &#x3D;&#x3D;&#x3D; &quot;function&quot;) &#123;</span><br><span class="line">              wrappedProps[key] &#x3D; createWrappedHandler(val as EventHandler);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">              &#x2F;&#x2F; 非函数的事件属性直接复制</span><br><span class="line">              wrappedProps[key] &#x3D; val;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125; else &#123;</span><br><span class="line">            &#x2F;&#x2F; 非事件属性直接复制</span><br><span class="line">            wrappedProps[key] &#x3D; val;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return wrappedProps;</span><br><span class="line">      &#125;;</span><br><span class="line"></span><br><span class="line">      const processVNode &#x3D; (node: any): any &#x3D;&gt; &#123;</span><br><span class="line">        &#x2F;&#x2F; 跳过非VNode对象（文本节点、注释节点等）</span><br><span class="line">        if (!node || typeof node !&#x3D;&#x3D; &quot;object&quot; || !node.type) &#123;</span><br><span class="line">          return node;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        const originalProps: Record&lt;string, any&gt; &#x3D; node.props || &#123;&#125;;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; 检查是否有事件属性需要处理</span><br><span class="line">        const hasEventProps &#x3D; Object.keys(originalProps).some(</span><br><span class="line">          (key) &#x3D;&gt;</span><br><span class="line">            key.startsWith(&quot;on&quot;) &amp;&amp; typeof originalProps[key] &#x3D;&#x3D;&#x3D; &quot;function&quot;</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; 递归处理子节点</span><br><span class="line">        let processedChildren &#x3D; node.children;</span><br><span class="line">        if (Array.isArray(node.children)) &#123;</span><br><span class="line">          processedChildren &#x3D; node.children.map((c: any) &#x3D;&gt; processVNode(c));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (!hasEventProps) &#123;</span><br><span class="line">          &#x2F;&#x2F; 没有事件属性，使用h函数重新创建VNode但保持原始props</span><br><span class="line">          return h(node.type, originalProps, processedChildren);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; 有事件属性，使用包装后的props重新创建VNode</span><br><span class="line">        const wrappedProps &#x3D; wrapEventHandlers(originalProps);</span><br><span class="line">        return h(node.type, wrappedProps, processedChildren);</span><br><span class="line">      &#125;;</span><br><span class="line"></span><br><span class="line">      return children.map((c) &#x3D;&gt; processVNode(c));</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; throttle.js</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; throttle: 一个轻量包装组件，用于给子节点的事件(on*)统一加防抖&#x2F;节流</span><br><span class="line">&#x2F;&#x2F; 彻底修复：完全避免cloneVNode，使用h函数重新创建VNode，确保事件不会重复触发</span><br><span class="line">&#x2F;&#x2F; 优化：处理默认插槽返回的所有子节点，并递归处理其子数组，保持实现简洁</span><br><span class="line">import &#123; defineComponent, h &#125; from &quot;vue&quot;;</span><br><span class="line">import baseMethods from &quot;..&#x2F;utils&#x2F;baseMethods&quot;;</span><br><span class="line"></span><br><span class="line">export default defineComponent(&#123;</span><br><span class="line">  name: &quot;throttle&quot;,</span><br><span class="line">  **props: &#123;</span><br><span class="line">    &#x2F;&#x2F; 单位时间（毫秒），用于防抖&#x2F;节流的时间窗口</span><br><span class="line">    time: &#123; type: Number, default: 1000 &#125;,</span><br><span class="line">    &#x2F;&#x2F; true&#x3D;节流；false&#x3D;防抖</span><br><span class="line">    throttle: &#123; type: Boolean, default: false &#125;,</span><br><span class="line">    &#x2F;&#x2F; 防抖&#x2F;节流的 defer 行为：根据 baseMethods 的实现</span><br><span class="line">    &#x2F;&#x2F; 一般情况下：defer&#x3D;true 表示&quot;先执行一次，后续在窗口内抑制&quot;，与常见防抖略有不同</span><br><span class="line">    defer: &#123; type: Boolean, default: true &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  setup(props, &#123; slots &#125;) &#123;</span><br><span class="line">    return () &#x3D;&gt; &#123;</span><br><span class="line">      &#x2F;&#x2F; 处理默认插槽的所有子节点；无子节点时返回 null</span><br><span class="line">      const children &#x3D; slots.default?.() ?? [];</span><br><span class="line">      if (!children.length) return null;</span><br><span class="line"></span><br><span class="line">      const method &#x3D; props.throttle ? &quot;throttle&quot; : &quot;debounce&quot;;</span><br><span class="line"></span><br><span class="line">      const createWrappedHandler &#x3D; (handler) &#x3D;&gt; &#123;</span><br><span class="line">        return baseMethods[method](handler, props.time, props.defer);</span><br><span class="line">      &#125;;</span><br><span class="line"></span><br><span class="line">      const wrapEventHandlers &#x3D; (originalProps) &#x3D;&gt; &#123;</span><br><span class="line">        const wrappedProps &#x3D; &#123;&#125;;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; 复制所有属性，对事件属性进行包装</span><br><span class="line">        for (const key in originalProps) &#123;</span><br><span class="line">          const val &#x3D; originalProps[key];</span><br><span class="line"></span><br><span class="line">          if (key.startsWith(&quot;on&quot;) &amp;&amp; val) &#123;</span><br><span class="line">            &#x2F;&#x2F; 对事件属性进行包装处理</span><br><span class="line">            if (Array.isArray(val)) &#123;</span><br><span class="line">              wrappedProps[key] &#x3D; val.map(createWrappedHandler);</span><br><span class="line">            &#125; else if (typeof val &#x3D;&#x3D;&#x3D; &quot;function&quot;) &#123;</span><br><span class="line">              wrappedProps[key] &#x3D; createWrappedHandler(val);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">              &#x2F;&#x2F; 非函数的事件属性直接复制</span><br><span class="line">              wrappedProps[key] &#x3D; val;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125; else &#123;</span><br><span class="line">            &#x2F;&#x2F; 非事件属性直接复制</span><br><span class="line">            wrappedProps[key] &#x3D; val;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return wrappedProps;</span><br><span class="line">      &#125;;</span><br><span class="line"></span><br><span class="line">      const processVNode &#x3D; (node) &#x3D;&gt; &#123;</span><br><span class="line">        &#x2F;&#x2F; 跳过非VNode对象（文本节点、注释节点等）</span><br><span class="line">        if (!node || typeof node !&#x3D;&#x3D; &quot;object&quot; || !node.type) &#123;</span><br><span class="line">          return node;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        const originalProps &#x3D; node.props || &#123;&#125;;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; 检查是否有事件属性需要处理</span><br><span class="line">        const hasEventProps &#x3D; Object.keys(originalProps).some(key &#x3D;&gt;</span><br><span class="line">          key.startsWith(&quot;on&quot;) &amp;&amp; typeof originalProps[key] &#x3D;&#x3D;&#x3D; &quot;function&quot;</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; 递归处理子节点</span><br><span class="line">        let processedChildren &#x3D; node.children;</span><br><span class="line">        if (Array.isArray(node.children)) &#123;</span><br><span class="line">          processedChildren &#x3D; node.children.map((c) &#x3D;&gt; processVNode(c));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        if (!hasEventProps) &#123;</span><br><span class="line">          &#x2F;&#x2F; 没有事件属性，使用h函数重新创建VNode但保持原始props</span><br><span class="line">          return h(node.type, originalProps, processedChildren);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; 有事件属性，使用包装后的props重新创建VNode</span><br><span class="line">        const wrappedProps &#x3D; wrapEventHandlers(originalProps);</span><br><span class="line">        return h(node.type, wrappedProps, processedChildren);</span><br><span class="line">      &#125;;</span><br><span class="line"></span><br><span class="line">      return children.map((c) &#x3D;&gt; processVNode(c));</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2025/09/18/dex%20solidity%E9%85%8D%E7%BD%AE/" rel="next" title="dex solidity配置">
+                <i class="fa fa-chevron-left"></i> dex solidity配置
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/assets/img/hsccys.jpg"
+                alt="Tpc" />
+            
+              <p class="site-author-name" itemprop="name">Tpc</p>
+              <p class="site-description motion-element" itemprop="description">我是一条想旅游的咸鱼</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+               
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/TpCBB" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text">vue3 技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-组件自动注册"><span class="nav-number">1.1.</span> <span class="nav-text">1. 组件自动注册</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-图片懒加载自定义指令"><span class="nav-number">1.2.</span> <span class="nav-text">2.图片懒加载自定义指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-动态-css-变量-动态-class"><span class="nav-number">1.3.</span> <span class="nav-text">3.动态 CSS 变量，动态 Class</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-suspense-加载协调员-的巧妙调度"><span class="nav-number">1.4.</span> <span class="nav-text">4.Suspense“加载协调员”的巧妙调度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-组件传送到指定位置"><span class="nav-number">1.5.</span> <span class="nav-text">5.组件传送到指定位置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-组件缓存"><span class="nav-number">1.6.</span> <span class="nav-text">6.组件缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-用-vueuse-库提升开发效率"><span class="nav-number">1.7.</span> <span class="nav-text">7.用 VueUse 库提升开发效率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-防抖元素"><span class="nav-number">1.8.</span> <span class="nav-text">8. 防抖元素</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#vue2-版本"><span class="nav-number">1.8.1.</span> <span class="nav-text">vue2 版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vue3"><span class="nav-number">1.8.2.</span> <span class="nav-text">Vue3</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2019 &mdash; <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    
+    <i class="far fa-grin-squint"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tpc</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/dist/confetti.browser.min.js"></script>
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

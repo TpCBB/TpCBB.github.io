@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="web3," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="dex solidity配置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="dex solidity配置">
+<meta property="og:url" content="http://yoursite.com/2025/09/18/dex%20solidity%E9%85%8D%E7%BD%AE/index.html">
+<meta property="og:site_name" content="Tpc">
+<meta property="og:description" content="dex solidity配置">
+<meta property="article:published_time" content="2025-09-17T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-05-18T09:17:26.412Z">
+<meta property="article:author" content="Tpc">
+<meta property="article:tag" content="web3">
+<meta name="twitter:card" content="summary">
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2025/09/18/dex solidity配置/"/>
+
+
+
+
+
+  <title>dex solidity配置 | Tpc</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Tpc</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Aal lzz well</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-resume">
+          <a href="/resume/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-id-card-o"></i> <br />
+            
+            简历
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2025/09/18/dex%20solidity%E9%85%8D%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tpc">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/img/hsccys.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Tpc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">dex solidity配置</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2025-09-18T00:00:00+08:00">
+                2025-09-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web3/" itemprop="url" rel="index">
+                    <span itemprop="name">web3</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  dex solidity配置
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1>dex solidity配置</h1>
+<hr />
+<h2 id="基础属性-订单簿交易"><strong>基础属性 订单簿交易</strong></h2>
+<ul>
+<li>收费账号 <code>address public feeAccount;</code></li>
+<li>费率 <code>uint256 public feePrecent;</code></li>
+<li>交易所名字 <code>string public name;</code></li>
+<li>初始化ETH的地址 <code>address constant ETHER = address(0);</code></li>
+<li>账簿 <code>mapping(address =&gt; mapping(address =&gt; uint256)) public tokens;</code></li>
+<li>订单结构体</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 订单结构体</span><br><span class="line">struct _Order &#123;</span><br><span class="line">    uint256 id; &#x2F;&#x2F; 表示</span><br><span class="line">    address user; &#x2F;&#x2F; 发起order用户</span><br><span class="line">    address tokenGet; &#x2F;&#x2F; 需要token的地址</span><br><span class="line">    uint256 amountGet; &#x2F;&#x2F; 需要token数量</span><br><span class="line">    address tokenGive; &#x2F;&#x2F; 消耗token的地址</span><br><span class="line">    uint256 amountGive; &#x2F;&#x2F; 消耗token的数量</span><br><span class="line">    uint256 timestamp; &#x2F;&#x2F; 时间戳 block.timestamp 关键字 block</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>订单记录 <code>mapping(uint256 =&gt; _Order) public orders;</code></li>
+<li>订单数量 <code>uint256 public orderCount;</code></li>
+<li>订单取消标识 用于前端区分 且可用于判断是否完成了订单 <code>mapping(uint256 =&gt; bool) public orderCancelled;</code></li>
+<li>订单交易成功标识 <code>mapping(uint256 =&gt; bool) public orderFilled;</code></li>
+</ul>
+<h2 id="功能"><strong>功能</strong></h2>
+<h3 id="构造函数初始化"><strong>构造函数初始化</strong></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; constructor(address _feeAccount, uint256 _feePrecent) &#123;</span><br><span class="line">&#x2F;&#x2F;     feeAccount &#x3D; _feeAccount;</span><br><span class="line">&#x2F;&#x2F;     feePrecent &#x3D; _feePrecent;</span><br><span class="line">&#x2F;&#x2F; &#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 删除 constructor，改用 function 函数 部署代理合约的时候,使用构造函数会报错，代理合约是为了升级合约不用改变原合约地址</span><br><span class="line">function initialize(</span><br><span class="line">    address _feeAccount,</span><br><span class="line">    uint256 _feePrecent,</span><br><span class="line">    string memory _name</span><br><span class="line">) public &#123;</span><br><span class="line">    feeAccount &#x3D; _feeAccount;</span><br><span class="line">    feePrecent &#x3D; _feePrecent;</span><br><span class="line">    name &#x3D; _name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="depositeth-存eth"><strong>depositEth 存eth</strong></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">event Deposit(address indexed _token, address indexed _user, uint256 _amount, uint256 _balance);</span><br><span class="line">&#x2F;&#x2F; depositEth paybable可交易eth</span><br><span class="line">function depositEth() public payable &#123;</span><br><span class="line">    &#x2F;&#x2F; 地址簿</span><br><span class="line">    tokens[ETHER][msg.sender] +&#x3D; msg.value;</span><br><span class="line">    &#x2F;&#x2F; 触发事件 记录上链 相当于log</span><br><span class="line">    emit Deposit(ETHER, msg.sender, msg.value, tokens[ETHER][msg.sender]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="deposittoken-存某token"><strong>depositToken 存某token</strong></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; depositEth paybable可交易eth</span><br><span class="line">function depositToken(address _token, uint256 _amount) public &#123;</span><br><span class="line">    &#x2F;&#x2F; 账簿</span><br><span class="line">    tokens[_token][msg.sender] +&#x3D; _amount;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 需要msg.sender授权交易所交易CysToken</span><br><span class="line">    &#x2F;&#x2F; 将 _token 地址转换为 CysToken类型 调用CysToken合约方法将用户cystoken转入交易所地址</span><br><span class="line">    CysToken(_token).transferFrom(msg.sender, address(this), _amount);</span><br><span class="line"></span><br><span class="line">    emit Deposit(_token, msg.sender, _amount, tokens[_token][msg.sender]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="withdrawether-提取eth"><strong>withdrawEther 提取eth</strong></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">event WithDraw(address indexed _token, address indexed _user, uint256 _amount, uint256 _balance);</span><br><span class="line">error amountError();</span><br><span class="line">function withdrawEther(uint256 _amount) public payable &#123;</span><br><span class="line">    &#x2F;&#x2F; 账簿记录</span><br><span class="line">    if (tokens[ETHER][msg.sender] &lt; _amount) &#123;</span><br><span class="line">        revert amountError();</span><br><span class="line">    &#125;</span><br><span class="line">    tokens[ETHER][msg.sender] -&#x3D; _amount;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 调用ETH的transfer方法将ETH从交易所提出给用户</span><br><span class="line">    &#x2F;&#x2F; 从交易所把ETH转给用户 ERC20 交易方法标准</span><br><span class="line">    payable(msg.sender).transfer(_amount);</span><br><span class="line"></span><br><span class="line">    emit WithDraw(ETHER, msg.sender, _amount, tokens[ETHER][msg.sender]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="withdrawtoken-提取某token"><strong>withdrawToken 提取某token</strong></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; withdrawTokens</span><br><span class="line">function withdrawToken(address _token, uint256 _amount) public &#123;</span><br><span class="line">    &#x2F;&#x2F; 判断：地址不为0，账簿上数量</span><br><span class="line">    require(_token !&#x3D; ETHER);</span><br><span class="line">    require(tokens[_token][msg.sender] &gt;&#x3D; _amount);</span><br><span class="line">    &#x2F;&#x2F; 账簿操作</span><br><span class="line">    tokens[_token][msg.sender] -&#x3D; _amount;</span><br><span class="line">    &#x2F;&#x2F; 从交易所转给用户</span><br><span class="line">    require(CysToken(_token).transfer(msg.sender, _amount));</span><br><span class="line">    &#x2F;&#x2F; 记录事件</span><br><span class="line">    emit WithDraw(_token, msg.sender, _amount, tokens[_token][msg.sender]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="makeorder-创建订单"><strong>makeOrder 创建订单</strong></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;makeOrder</span><br><span class="line">function makeOrder(address _tokenGet,address _tokenGive,uint256 _amountGet,uint256 _amountGive ) public &#123;</span><br><span class="line"></span><br><span class="line">    orderCount++;</span><br><span class="line">    &#x2F;&#x2F; 记录orderlist中</span><br><span class="line">    orders[orderCount] &#x3D; _Order(</span><br><span class="line">        orderCount,</span><br><span class="line">        msg.sender,</span><br><span class="line">        _tokenGet,</span><br><span class="line">        _amountGet,</span><br><span class="line">        _tokenGive,</span><br><span class="line">        _amountGive,</span><br><span class="line">        block.timestamp</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    emit Order(orderCount,msg.sender,_tokenGet,_amountGet,_tokenGive,_amountGive,block.timestamp);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="cancelorder-取消订单"><strong>cancelOrder 取消订单</strong></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; cancelOrder</span><br><span class="line">&#x2F;&#x2F; 设置orderCancelled中该订单为true即可 不需要删除记录</span><br><span class="line">function cancelOrder(uint256 _id) public &#123;</span><br><span class="line">    _Order memory _order &#x3D; orders[_id];</span><br><span class="line">    require(address(_order.user) &#x3D;&#x3D; msg.sender);</span><br><span class="line">    require(_order.id &#x3D;&#x3D; _id);</span><br><span class="line"></span><br><span class="line">    orderCancelled[_id] &#x3D; true;</span><br><span class="line"></span><br><span class="line">    emit Cancel(_id, msg.sender, _order.tokenGet, _order.amountGet, _order.tokenGive, _order.amountGive, block.timestamp);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="fillorder-完成订单"><strong>fillOrder 完成订单</strong></h3>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; fillOrder 完成订单只发生于交易所内 操作订单簿上的数据</span><br><span class="line">function fillOrder(uint256 _id) public &#123;</span><br><span class="line">    _Order memory _order &#x3D; orders[_id];</span><br><span class="line">    require(_order.id &#x3D;&#x3D; _id);  &#x2F;&#x2F; 订单id是否存在</span><br><span class="line">    require(orderCancelled[_id] &#x3D;&#x3D; false, &quot;Order has been cancelled&quot;); &#x2F;&#x2F; 订单是否被取消</span><br><span class="line">    require(orderFilled[_id] &#x3D;&#x3D; true, &quot;Order has already been filled&quot;); &#x2F;&#x2F;订单是否已经被交易</span><br><span class="line">    require(_order.user !&#x3D; msg.sender); &#x2F;&#x2F; 卖家 ！&#x3D; 买家</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 账户余额交易 &amp;&amp; 手续费</span><br><span class="line">    uint256 _feeAmount &#x3D; _order.amountGive * feePrecent &#x2F; 100;</span><br><span class="line">    &#x2F;&#x2F; 交易所收取手续费 &#x3D; 交易者消耗的token数量 * 手续费率</span><br><span class="line">    tokens[_order.tokenGet][feeAccount] +&#x3D; _feeAmount; &#x2F;&#x2F; 交易所收费账户</span><br><span class="line">    &#x2F;*</span><br><span class="line">        msg.sender 交易者</span><br><span class="line">        _order.tokenGet 交易者要交易的token合约地址 CYST</span><br><span class="line">        _order.amountGet 交易者要交易的token数量 10000</span><br><span class="line">        _order.tokenGive 交易者要消耗的token合约地址 ETH</span><br><span class="line">        _order.amountGive 交易者要消耗的token数量 1</span><br><span class="line">        eg: CYST * 10000 &#x3D;&gt; ETH * 1</span><br><span class="line"></span><br><span class="line">        订单簿中</span><br><span class="line">    *&#x2F;</span><br><span class="line">    tokens[_order.tokenGet][msg.sender] +&#x3D; _order.amountGet ;</span><br><span class="line">    tokens[_order.tokenGet][_order.user] -&#x3D; _order.amountGet;</span><br><span class="line">    tokens[_order.tokenGive][msg.sender] -&#x3D; ( _order.amountGive + _feeAmount); &#x2F;&#x2F; 交易者要消耗的token+手续费</span><br><span class="line">    tokens[_order.tokenGive][_order.user] +&#x3D; _order.amountGive;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 已经交易的订单id</span><br><span class="line">    orderFilled[_id] &#x3D; true;</span><br><span class="line"></span><br><span class="line">    emit Trade(_order.id,_order.user,_order.tokenGet,_order.amountGet,_order.tokenGive,_order.amountGive,block.timestamp);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/web3/" rel="tag"># web3</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2025/09/18/token%E9%85%8D%E7%BD%AE/" rel="next" title="token配置">
+                <i class="fa fa-chevron-left"></i> token配置
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2025/11/12/vue3%E6%8A%80%E5%B7%A7/" rel="prev" title="vue3技巧">
+                vue3技巧 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/assets/img/hsccys.jpg"
+                alt="Tpc" />
+            
+              <p class="site-author-name" itemprop="name">Tpc</p>
+              <p class="site-description motion-element" itemprop="description">我是一条想旅游的咸鱼</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+               
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/TpCBB" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text">dex solidity配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基础属性-订单簿交易"><span class="nav-number">1.1.</span> <span class="nav-text">基础属性 订单簿交易</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#功能"><span class="nav-number">1.2.</span> <span class="nav-text">功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#构造函数初始化"><span class="nav-number">1.2.1.</span> <span class="nav-text">构造函数初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#depositeth-存eth"><span class="nav-number">1.2.2.</span> <span class="nav-text">depositEth 存eth</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#deposittoken-存某token"><span class="nav-number">1.2.3.</span> <span class="nav-text">depositToken 存某token</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#withdrawether-提取eth"><span class="nav-number">1.2.4.</span> <span class="nav-text">withdrawEther 提取eth</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#withdrawtoken-提取某token"><span class="nav-number">1.2.5.</span> <span class="nav-text">withdrawToken 提取某token</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#makeorder-创建订单"><span class="nav-number">1.2.6.</span> <span class="nav-text">makeOrder 创建订单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cancelorder-取消订单"><span class="nav-number">1.2.7.</span> <span class="nav-text">cancelOrder 取消订单</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fillorder-完成订单"><span class="nav-number">1.2.8.</span> <span class="nav-text">fillOrder 完成订单</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2019 &mdash; <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    
+    <i class="far fa-grin-squint"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tpc</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/dist/confetti.browser.min.js"></script>
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
