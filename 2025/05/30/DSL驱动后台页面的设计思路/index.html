@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon-tpc.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32-tpc.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16-tpc.png?v=5.1.4">
+
+
+
+
+
+
+  <meta name="keywords" content="Vue,JSON Schema,后台管理,前端架构," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="记录后台管理系统中的 DSL、页面配置与模型继承思路">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于 DSL 驱动后台页面的设计与实践">
+<meta property="og:url" content="https://tpc28yo.xyz/2025/05/30/DSL%E9%A9%B1%E5%8A%A8%E5%90%8E%E5%8F%B0%E9%A1%B5%E9%9D%A2%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF/index.html">
+<meta property="og:site_name" content="Tpc">
+<meta property="og:description" content="记录后台管理系统中的 DSL、页面配置与模型继承思路">
+<meta property="article:published_time" content="2025-05-30T04:00:00.000Z">
+<meta property="article:modified_time" content="2026-11-01T05:33:23.289Z">
+<meta property="article:author" content="Tpc">
+<meta property="article:tag" content="Vue">
+<meta property="article:tag" content="JSON Schema">
+<meta property="article:tag" content="后台管理">
+<meta property="article:tag" content="前端架构">
+<meta name="twitter:card" content="summary">
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://tpc28yo.xyz/2025/05/30/DSL驱动后台页面的设计思路/"/>
+
+
+
+
+
+  <title>关于 DSL 驱动后台页面的设计与实践 | Tpc</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+    <canvas id="journey-canvas" class="journey-background" aria-hidden="true"></canvas>
+  
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Tpc</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Aal lzz well</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://tpc28yo.xyz/2025/05/30/DSL%E9%A9%B1%E5%8A%A8%E5%90%8E%E5%8F%B0%E9%A1%B5%E9%9D%A2%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%80%9D%E8%B7%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tpc">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/img/tpc.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Tpc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">关于 DSL 驱动后台页面的设计与实践</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2025-05-30T12:00:00+08:00">
+                2025-05-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tech/" itemprop="url" rel="index">
+                    <span itemprop="name">tech</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  记录后台管理系统中的 DSL、页面配置与模型继承思路
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>做管理后台时，表格、搜索、新增和编辑页面经常反复出现。业务字段不一样，页面结构却很相似：每做一个模块，都要重新写一遍表单、列表和按钮。</p>
+<p>整理这个问题时，我尝试用一套 DSL（领域特定语言）来描述后台页面：把菜单、字段、控件和操作写成配置，再交给页面组件解析。这里的 DSL 不是发明一门编程语言，而是给后台页面约定一套面向业务的配置方式。</p>
+<h2 id="从页面结构开始">从页面结构开始</h2>
+<p>一个常见的后台页面可以拆成几部分：头部菜单、侧边栏，以及中间的内容区域。内容区域有些是表格和表单，有些是自定义页面，也可能需要嵌入第三方页面。</p>
+<p>所以菜单配置里可以区分不同的 <code>moduleType</code>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  key: <span class="string">'products'</span>,</span><br><span class="line">  name: <span class="string">'商品管理'</span>,</span><br><span class="line">  menuType: <span class="string">'module'</span>,</span><br><span class="line">  moduleType: <span class="string">'schema'</span>,</span><br><span class="line">  schemaConfig: &#123; <span class="comment">/* 表格、搜索和表单配置 */</span> &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>schema</code> 适合结构比较统一的列表和表单页面；特殊页面可以使用 <code>custom</code>；需要嵌入其他页面时可以使用 <code>iframe</code>。不是所有业务都要塞进 Schema 页面里。</p>
+<h2 id="用字段配置生成页面">用字段配置生成页面</h2>
+<p>以商品名称为例，它可能需要在表格中展示，也可以作为搜索条件，还要出现在新增、编辑表单里。配置可以写在同一个字段下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> schema = &#123;</span><br><span class="line">  type: <span class="string">'object'</span>,</span><br><span class="line">  properties: &#123;</span><br><span class="line">    name: &#123;</span><br><span class="line">      type: <span class="string">'string'</span>,</span><br><span class="line">      label: <span class="string">'商品名称'</span>,</span><br><span class="line">      tableOption: &#123; <span class="attr">visible</span>: <span class="literal">true</span> &#125;,</span><br><span class="line">      searchOption: &#123; <span class="attr">comType</span>: <span class="string">'input'</span>, <span class="attr">default</span>: <span class="string">''</span> &#125;,</span><br><span class="line">      createFormOption: &#123; <span class="attr">comType</span>: <span class="string">'input'</span>, <span class="attr">visible</span>: <span class="literal">true</span> &#125;,</span><br><span class="line">      editFormOption: &#123; <span class="attr">comType</span>: <span class="string">'input'</span>, <span class="attr">visible</span>: <span class="literal">true</span> &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  required: [<span class="string">'name'</span>],</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>表格读取 <code>tableOption</code> 生成列，搜索栏根据 <code>searchOption</code> 生成输入框，新增和编辑表单则读取对应的表单配置。按钮、弹窗和请求地址还需要另外配置，不是光有字段就能完成整个页面。</p>
+<p>这里也要区分标准和扩展：<code>type</code>、<code>properties</code>、<code>required</code> 来自 JSON Schema；<code>tableOption</code> 等是页面自己约定的 UI 配置。后端接口仍然需要实现，前端配置不能代替服务端校验。</p>
+<h2 id="模型和项目配置">模型和项目配置</h2>
+<p>有些后台的菜单结构基本一样，只是项目名称、部分菜单或者页面配置不同。可以先抽出一份通用 model，再让具体 project 在它的基础上调整。</p>
+<p>例如通用模型里有「视频管理」和「用户管理」，某个项目可以修改其中一个菜单的名字，再增加「课程资料」菜单。解析时根据 <code>key</code> 处理：两边都有的合并配置，只在项目里出现的新增，只在模型里出现的保留。嵌套菜单也需要按同样的约定处理。</p>
+<p>这种方式让相似项目能复用一部分配置，但合并规则一定要写清楚。尤其是数组、默认值和同名字段，不能只看一眼就以为所有情况都符合预期，最好用实际配置覆盖测试。</p>
+<h2 id="配置化的边界">配置化的边界</h2>
+<p>这套方式比较适合字段结构和操作流程相近的页面。简单页面可以少写不少重复代码，但如果涉及复杂交互、字段联动或特殊权限，配置也会越来越复杂，这时自定义组件可能更合适。</p>
+<p>DSL 最重要的不是把页面上的每个东西都变成配置，而是让常见需求有一套大家看得懂、改得动的约定。哪些地方需要扩展、配置出错时怎么提示，也要一起考虑。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Vue/" rel="tag"># Vue</a>
+          
+            <a href="/tags/JSON-Schema/" rel="tag"># JSON Schema</a>
+          
+            <a href="/tags/%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86/" rel="tag"># 后台管理</a>
+          
+            <a href="/tags/%E5%89%8D%E7%AB%AF%E6%9E%B6%E6%9E%84/" rel="tag"># 前端架构</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2025/05/20/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96%E5%BB%BA%E8%AE%BE-Webpack%E9%85%8D%E7%BD%AE/" rel="next" title="前端工程化建设：整理 Webpack 多入口和构建配置">
+                <i class="fa fa-chevron-left"></i> 前端工程化建设：整理 Webpack 多入口和构建配置
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2025/06/14/react%20%E4%BC%98%E9%9B%85%E7%9A%84%E7%BB%84%E4%BB%B6/" rel="prev" title="react:开闭原则，优雅的组件">
+                react:开闭原则，优雅的组件 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/assets/img/tpc.png"
+                alt="Tpc" />
+            
+              <p class="site-author-name" itemprop="name">Tpc</p>
+              <p class="site-description motion-element" itemprop="description">我是一条想旅游的咸鱼</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+               
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/TpCBB" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#从页面结构开始"><span class="nav-number">1.</span> <span class="nav-text">从页面结构开始</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用字段配置生成页面"><span class="nav-number">2.</span> <span class="nav-text">用字段配置生成页面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型和项目配置"><span class="nav-number">3.</span> <span class="nav-text">模型和项目配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置化的边界"><span class="nav-number">4.</span> <span class="nav-text">配置化的边界</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2019 &mdash; <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    
+    <i class="far fa-grin-squint"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tpc</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/dist/confetti.browser.min.js"></script>
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+    <script src="/lib/gsap/gsap.min.js"></script>
+    <script src="/lib/gsap/ScrollTrigger.min.js"></script>
+    <script src="/lib/three/three.min.js"></script>
+    <script src="/js/src/journey-3d.js"></script>
+    <script src="/js/src/journey.js"></script>
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
