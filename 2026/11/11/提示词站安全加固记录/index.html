@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0-swap" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon-tpc.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32-tpc.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16-tpc.png?v=5.1.4">
+
+
+
+
+
+
+  <meta name="keywords" content="前端,Next.js,Supabase,接口安全,Vercel,Cloudflare,R2," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="把图片从 R2 迁到 Workers Static Assets，再收紧数据库匿名读取和接口限流，记录一次费用与安全调整">
+<meta property="og:type" content="article">
+<meta property="og:title" content="提示词站安全与图片托管调整记录">
+<meta property="og:url" content="https://tpc28yo.xyz/2026/11/11/%E6%8F%90%E7%A4%BA%E8%AF%8D%E7%AB%99%E5%AE%89%E5%85%A8%E5%8A%A0%E5%9B%BA%E8%AE%B0%E5%BD%95/index.html">
+<meta property="og:site_name" content="Tpc">
+<meta property="og:description" content="把图片从 R2 迁到 Workers Static Assets，再收紧数据库匿名读取和接口限流，记录一次费用与安全调整">
+<meta property="article:published_time" content="2026-11-10T16:24:15.000Z">
+<meta property="article:modified_time" content="2026-11-11T03:24:10.964Z">
+<meta property="article:author" content="Tpc">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="Next.js">
+<meta property="article:tag" content="Supabase">
+<meta property="article:tag" content="接口安全">
+<meta property="article:tag" content="Vercel">
+<meta property="article:tag" content="Cloudflare">
+<meta property="article:tag" content="R2">
+<meta name="twitter:card" content="summary">
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://tpc28yo.xyz/2026/11/11/提示词站安全加固记录/"/>
+
+
+
+
+
+  <title>提示词站安全与图片托管调整记录 | Tpc</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Tpc</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Aal lzz well</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://tpc28yo.xyz/2026/11/11/%E6%8F%90%E7%A4%BA%E8%AF%8D%E7%AB%99%E5%AE%89%E5%85%A8%E5%8A%A0%E5%9B%BA%E8%AE%B0%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tpc">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/img/tpc.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Tpc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">提示词站安全与图片托管调整记录</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2026-11-11T00:24:15+08:00">
+                2026-11-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tech/" itemprop="url" rel="index">
+                    <span itemprop="name">tech</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  把图片从 R2 迁到 Workers Static Assets，再收紧数据库匿名读取和接口限流，记录一次费用与安全调整
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近在整理自己的 AI 提示词站。项目用 Next.js 做页面和接口，数据放在 Supabase，图片原来存在 R2。这次主要看访问量增长后的费用和公开读取入口，把图片改成静态托管，也重新查了仓库和数据库的权限。</p>
+<p>当时我比较担心的是：仓库还是公开的，项目又连着 Cloudflare 和数据库，会不会把后台也暴露出去了？我把仓库改成私有，也检查了实际提交的文件和本地 Git 历史。</p>
+<p>继续查下去，发现了一个更具体的问题：页面已经会调用自己的 API，但数据库仍允许匿名读取。这样即使给网站接口加上限流，别人也可能从另一条路径直接查库。</p>
+<a id="more"></a>
+<h2 id="先分清楚公开了什么">先分清楚公开了什么</h2>
+<p>连接了 Cloudflare，不代表别人看到配置就能操作账号。图片域名、账号标识和有操作权限的 API 令牌，需要分开看。</p>
+<p>真正要查的是密钥有没有进 Git、有没有被打进浏览器代码、有没有跟着本地部署文件一起上传。</p>
+<p>这次对本地 Git 历史的扫描，没有找到当前配置的敏感密钥。不过这个结论也有范围：检查了当前凭据，不等于能保证所有历史凭据都从未泄露。仓库改成私有，也不会自动收回别人已经复制的内容。如果发现真实密钥泄露，还是要撤销或轮换，光删文件不够。</p>
+<p>Supabase 的 key 也得分清用途。<code>publishable key</code> 和旧的 <code>anon key</code> 可以用于公开客户端，它们本身不应该被当成管理员密码。客户端到底能读什么、改什么，还要看数据库授权和 RLS。<code>service_role</code> 或 secret key 则是另一回事，不能交给浏览器。</p>
+<p>查完这些，我把重点放回了数据库权限和调用路径上。</p>
+<h2 id="图片从-r2-迁到了-workers-static-assets">图片从 R2 迁到了 Workers Static Assets</h2>
+<p>图片这边，我最在意的是访问量上来以后，读取请求会不会继续增加费用。</p>
+<p>这里得先把 R2 的计费说准确：它本来就免出网流量费。可能产生费用的是存储，以及超过免费额度的操作。读取对象属于 Class B 操作，所以“图片被访问得多，可能增加读取操作费用”比较准确，不能直接说成“R2 按下载流量收费”。浏览器发了请求，也不一定都对应一次落到 R2 的读取，缓存和免费额度都会影响最后的账单。</p>
+<p>我的图库主要是一批固定图片，更新频率不高，适合跟着部署一起发布。这次实际用的是 <strong>Cloudflare Workers Static Assets</strong>：把图片作为静态资源上传，由平台直接返回文件。</p>
+<p>线上版本也核对过了，静态资源直出已启用，Worker 优先执行关闭，没有 R2 绑定。这条图片路径不会再回头读取旧桶。配置简化后类似这样，目录和名称是示意：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"gallery-assets"</span>,</span><br><span class="line">  <span class="attr">"compatibility_date"</span>: <span class="string">"2026-11-11"</span>,</span><br><span class="line">  <span class="attr">"assets"</span>: &#123;</span><br><span class="line">    <span class="attr">"directory"</span>: <span class="string">"./public-images"</span>,</span><br><span class="line">    <span class="attr">"not_found_handling"</span>: <span class="string">"none"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>按这次核对的规则，普通静态资源直出的请求免费且不限次数，静态资源存储不额外收费，也没有带宽流量附加费用。对这条图片请求路径来说，访问量增加，不会再累积 R2 的对象读取操作费用。</p>
+<p>迁移时，我先完整备份原始文件，核对路径、大小和哈希，再保留原来的相对路径上传。数据库里的图片字段不用逐条改，网站切换图片基础地址就能继续用。新地址验证完成以后，才清空旧桶里的文件；本地备份仍然保留。图片迁走和旧账号的订阅、历史账单是几件事，不能直接画等号。</p>
+<p>顺手把缩略图也放到发布前生成：列表使用 480 / 960 像素的 WebP，详情继续看原图。带内容哈希的缩略图设置一年不可变缓存，正常图片请求直接访问独立图片域名，不经过 Next.js 的在线图片处理。</p>
+<p>这里的免费范围也得说清楚。静态资源有文件数量、单文件大小等限制；如果请求执行了 Worker 脚本、做了在线图片处理，或者启用了会改变计费方式的其他功能，就要重新看对应的额度和费用。</p>
+<p>尤其是 Cloudflare 的 <strong>Workers Caching</strong>：它的 <code>cache.enabled</code> 开关和 <code>_headers</code> 里的普通 <code>Cache-Control</code> 响应头需要分开看。按当前规则，启用 Workers Caching 后，静态资源请求也会按 Workers 请求规则计费。我这次没有启用这个开关。</p>
+<p>所以这次解决的是：<strong>把固定图库改为纯静态资源直出，让这部分图片访问不再因为 R2 读取次数增长而新增操作费用。</strong> 网站接口、数据库和限流存储，仍然有各自的额度和计费规则。如果以后要支持用户随时上传图片，也得重新安排上传、存储和发布流程。</p>
+<p>上面的计费范围核对于 2026-11-11，后续调整架构时还要再核对。</p>
+<h2 id="页面有-api-数据库也要收权限">页面有 API，数据库也要收权限</h2>
+<p>我的页面本来就在请求自己的列表、搜索和详情接口。这次的问题是，Supabase 还保留着匿名直读的授权。</p>
+<p>只要这条路还开着，请求就可以跳过网站入口。页面上的按钮、搜索防抖，以及放在网站中间件里的限流，都管不到直接发给数据库 Data API 的请求。</p>
+<p>所以这次把数据访问收口到了服务端：浏览器请求网站接口，服务端再读取数据库。数据库管理密钥只留在服务端环境里。</p>
+<p>Next.js 里我给这类模块加了 <code>server-only</code>。下面只保留初始化边界，省略项目里的实例复用和兼容配置：</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">'server-only'</span></span><br><span class="line"><span class="keyword">import</span> &#123; createClient &#125; <span class="keyword">from</span> <span class="string">'@supabase/supabase-js'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> url = process.env.SUPABASE_URL</span><br><span class="line"><span class="keyword">const</span> key = process.env.SUPABASE_SERVICE_ROLE_KEY</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (!url || !key) &#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'Missing server configuration'</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> database = createClient(url, key, &#123;</span><br><span class="line">  auth: &#123;</span><br><span class="line">    persistSession: <span class="literal">false</span>,</span><br><span class="line">    autoRefreshToken: <span class="literal">false</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p><code>server-only</code> 能在模块被误引入客户端组件时让构建报错。密钥变量也不能加 <code>NEXT_PUBLIC_</code> 前缀，不然就可能进入浏览器代码。</p>
+<p>这里还有一个容易走偏的地方：<code>service_role</code> 可以绕过 RLS，接口本身就更需要限制好输入和返回内容。我保留固定的查询入口和返回结构，新增、修改、删除另外校验管理令牌。管理令牌只交给受信任的服务端或本地工具；没有配置时，写入功能直接禁用。</p>
+<p>这个站提供的是公开提示词内容。如果换成用户私有数据，服务端还得检查登录身份和数据归属，不能只把查询挪到高权限密钥后面。</p>
+<p>服务端读取确认可用以后，再收回原始表的匿名读取权限。下面用 <code>content_items</code> 代替实际表名，表示这次调整的结构：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">BEGIN</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> public.content_items <span class="keyword">ENABLE</span> <span class="keyword">ROW</span> <span class="keyword">LEVEL</span> <span class="keyword">SECURITY</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">REVOKE</span> <span class="keyword">SELECT</span> <span class="keyword">ON</span> <span class="keyword">TABLE</span> public.content_items</span><br><span class="line"><span class="keyword">FROM</span> <span class="keyword">PUBLIC</span>, anon, <span class="keyword">authenticated</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">SELECT</span> <span class="keyword">ON</span> <span class="keyword">TABLE</span> public.content_items <span class="keyword">TO</span> service_role;</span><br><span class="line"></span><br><span class="line">NOTIFY pgrst, 'reload schema';</span><br><span class="line"></span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
+<p>这里的 <code>PUBLIC</code> 是所有角色的公共授权，和 <code>public</code> 这个 schema 不是一回事。只撤销 <code>anon</code>，还要确认它有没有从其他授权里继续拿到读取权限。</p>
+<p>视图和函数也一起检查了。用于图库的视图设置了 <code>security_invoker = true</code>，按调用方权限访问底层表；视图和统计函数的访问授权也只留给服务端角色，避免通过新入口重新开放数据。</p>
+<h2 id="限流要能跨实例计数">限流要能跨实例计数</h2>
+<p>读取收回服务端后，入口就比较好管理了。但 Vercel 上还要考虑多实例。</p>
+<p>进程里的 <code>Map</code> 可以做本地计数。线上实例一多，同一个访客的请求可能落在不同实例上，每个实例都觉得自己没超限。实例重启后，计数也会丢。</p>
+<p>这次接了 Upstash Redis，通过 Vercel Marketplace 配置。选的是免费方案，创建时明确关闭了自动升级参数。</p>
+<p>计数按普通读取、搜索、短时间突发分别设置，还加了站点总量预算。多个额度要一起检查，所以放进同一个 Lua 脚本：先确认所有额度都允许，再统一增长计数。被拒绝的请求不会继续增加计数，也不会反复延长等待时间。</p>
+<p>网站首页也会查库，所以只保护 <code>/api/*</code> 不够。首页、HEAD 请求和带预取标记的请求都要经过检查，不能因为请求带了一个客户端能随便填写的头就跳过。</p>
+<p>IP 也只用来做限流分组。我取部署平台提供的转发信息，再做规范化和哈希后计数。它不是登录身份，共用网络出口的用户也可能共用额度。</p>
+<p>超过额度返回 <code>429</code> 和 <code>Retry-After</code>。这些拒绝响应加了 <code>no-store</code>，避免被缓存后继续影响正常请求。前端收到 <code>429</code> 或 <code>503</code> 时不自动重试，留给用户手动操作，免得页面自己把拥堵放大。</p>
+<p>Redis 故障时，我这次选择返回 <code>503</code>，不继续放开查库。这个取舍会影响可用性：存储故障时，正常用户也可能暂时打不开页面。对这个小站，我先保住数据库入口，再通过错误提示和重试处理恢复。</p>
+<p>另外，缓存和查询并发保护仍然是单实例范围。我做了短时缓存、相同请求的并发合并、数据库读取超时和并发上限，用来减少重复工作。跨实例共享的是 Redis 里的限流额度，不能把这两种范围混在一起。</p>
+<h2 id="上线顺序得安排好">上线顺序得安排好</h2>
+<p>这里最容易出问题的是先收权限，而线上旧版还在用匿名凭据读取。SQL 执行成功了，网站却跟着出错。</p>
+<p>这次按下面的顺序做：</p>
+<ol>
+<li>配好生产环境的服务端密钥和共享限流存储。</li>
+<li>创建使用生产配置的候选部署，先不切正式域名。</li>
+<li>验证首页、列表、搜索、分类、标签和详情，再切换正式域名。</li>
+<li>确认正式站点运行新版后，执行数据库权限迁移。</li>
+<li>分别验证网站读取成功、数据库直读被拒绝。</li>
+</ol>
+<p>Vercel CLI 可以先创建候选部署，再单独切换：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vercel deploy --prod --skip-domain</span><br><span class="line"></span><br><span class="line"><span class="comment"># 候选部署验证通过后再执行</span></span><br><span class="line">vercel promote &lt;candidate-deployment-url&gt;</span><br></pre></td></tr></table></figure>
+<p>中间还卡过一次提交身份。仓库改成私有后，Vercel 拒绝了不符合项目成员要求的提交作者。核对 Git 作者邮箱和实际登录账号后，用账号所有者已验证的真实身份重新发布，才通过。</p>
+<p>我自己的个人私有仓库继续部署没有问题，但提交身份和项目权限得对应上，不能只看本机已经登录了 CLI。</p>
+<p>部署文件也单独查了一遍。本地除了源码，还有环境文件、备份和图片原始目录，这些不能跟着网站发布。我加了 <code>.vercelignore</code>，再用下面的命令看实际文件清单：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vercel deploy --dry --json</span><br></pre></td></tr></table></figure>
+<p>检查的是最终会上传哪些文件，而不只是看 <code>.gitignore</code> 写得像不像已经排除了。</p>
+<h2 id="验证时-我刻意避开了缓存">验证时，我刻意避开了缓存</h2>
+<p>改完后只刷新一次页面，还不能确定权限调整没有问题。页面可能拿到旧缓存；有些错误页面本身也能返回 <code>200</code>。</p>
+<p>我除了看状态码，还检查首页有没有真实的提示词卡片、接口有没有返回预期的数据。然后用新的随机搜索条件强制走一次未缓存的查询，确认服务端确实还能访问数据库。读取失败也要和正常空结果分开处理，不能把数据库报错吞成一个成功的空数组。</p>
+<p>数据库直读则用有效的 publishable key 去测。这样能排除“只是 key 填错了，所以访问失败”的情况。实际返回的是 <code>401</code>，响应里的 PostgreSQL 错误码是 <code>42501</code>，表示权限不足。</p>
+<p>限流也跑了真实请求。测试时还得确认请求落在同一个时间窗口和计数分组里，不能只看脚本写了多少并发。我把请求改为复用同一连接，核对 Redis 里的共享计数，确认出现了带 <code>Retry-After</code>、禁止缓存的 <code>429</code> 响应。</p>
+<p>最后的结果是：</p>
+<ul>
+<li>原始表和图库视图的匿名直读被拒绝，普通用户角色也没有直读授权。</li>
+<li>网站首页、列表、分类、标签，以及未命中缓存的查询正常返回。</li>
+<li>未授权写入返回 <code>403</code>。</li>
+<li>原始提示词仍是 1,110 条，默认图片列表仍展示 1,013 条，权限调整没有删除数据。两个数量的统计口径不同，默认列表还有类型、去重和内容过滤规则。</li>
+<li>整个项目的 151 项测试通过，GitHub 自动检查和生产构建也通过。其中包含权限撤销、限流、缓存并发等用例，并不都是这次新增的测试。</li>
+</ul>
+<p>图片静态化处理了这批图库的读取费用问题，数据库权限和应用层限流则管网站的数据入口。它们不能保证挡住大规模分布式攻击，也不能消除所有托管平台请求费用；图片服务的访问保护还得单独管理。</p>
+<p>以后再给这类小项目上线，我会多检查一条路径：页面平时从哪里读数据，绕过页面以后又能从哪里读到。把这两条路都走一遍，比只看页面能不能打开更有用。</p>
+<h2 id="参考">参考</h2>
+<ul>
+<li><a href="https://developers.cloudflare.com/r2/pricing/" target="_blank" rel="noopener">Cloudflare R2 计费</a></li>
+<li><a href="https://developers.cloudflare.com/workers/static-assets/billing-and-limitations/" target="_blank" rel="noopener">Workers Static Assets 计费与限制</a></li>
+<li><a href="https://developers.cloudflare.com/workers/platform/pricing/" target="_blank" rel="noopener">Cloudflare Workers 计费</a></li>
+<li><a href="https://developers.cloudflare.com/workers/cache/" target="_blank" rel="noopener">Workers Caching</a></li>
+<li><a href="https://supabase.com/docs/guides/api/api-keys" target="_blank" rel="noopener">Supabase API Keys</a></li>
+<li><a href="https://supabase.com/docs/guides/api/securing-your-api" target="_blank" rel="noopener">Supabase Data API 权限</a></li>
+<li><a href="https://supabase.com/docs/guides/database/postgres/row-level-security" target="_blank" rel="noopener">Supabase RLS 与视图权限</a></li>
+<li><a href="https://nextjs.org/docs/app/getting-started/server-and-client-components" target="_blank" rel="noopener">Next.js 服务端与客户端组件</a></li>
+<li><a href="https://vercel.com/docs/deployments/troubleshoot-project-collaboration" target="_blank" rel="noopener">Vercel 私有仓库部署与协作权限</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag"># 前端</a>
+          
+            <a href="/tags/Next-js/" rel="tag"># Next.js</a>
+          
+            <a href="/tags/Supabase/" rel="tag"># Supabase</a>
+          
+            <a href="/tags/%E6%8E%A5%E5%8F%A3%E5%AE%89%E5%85%A8/" rel="tag"># 接口安全</a>
+          
+            <a href="/tags/Vercel/" rel="tag"># Vercel</a>
+          
+            <a href="/tags/Cloudflare/" rel="tag"># Cloudflare</a>
+          
+            <a href="/tags/R2/" rel="tag"># R2</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2026/10/25/%E7%99%BB%E5%BD%95%E5%9B%9E%E8%B7%B3%E4%B8%AD%E7%9A%84callback%E5%8F%82%E6%95%B0/" rel="next" title="登录回跳里的 callback 参数为什么会丢失">
+                <i class="fa fa-chevron-left"></i> 登录回跳里的 callback 参数为什么会丢失
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2026/11/12/%E5%8A%A0%E8%BD%BD%E6%9B%B4%E5%A4%9A%E5%AF%BC%E8%87%B4%E7%80%91%E5%B8%83%E6%B5%81%E5%8D%A1%E7%89%87%E9%87%8D%E6%8E%92/" rel="prev" title="照片瀑布流增加乱序问题">
+                照片瀑布流增加乱序问题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/assets/img/tpc.png"
+                alt="Tpc" />
+            
+              <p class="site-author-name" itemprop="name">Tpc</p>
+              <p class="site-description motion-element" itemprop="description">我是一条想旅游的咸鱼</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+               
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/TpCBB" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#先分清楚公开了什么"><span class="nav-number">1.</span> <span class="nav-text">先分清楚公开了什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图片从-r2-迁到了-workers-static-assets"><span class="nav-number">2.</span> <span class="nav-text">图片从 R2 迁到了 Workers Static Assets</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#页面有-api-数据库也要收权限"><span class="nav-number">3.</span> <span class="nav-text">页面有 API，数据库也要收权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#限流要能跨实例计数"><span class="nav-number">4.</span> <span class="nav-text">限流要能跨实例计数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#上线顺序得安排好"><span class="nav-number">5.</span> <span class="nav-text">上线顺序得安排好</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#验证时-我刻意避开了缓存"><span class="nav-number">6.</span> <span class="nav-text">验证时，我刻意避开了缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">7.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2019 &mdash; <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    
+    <i class="fa fa-smile-o" aria-hidden="true"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tpc</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script defer type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script defer type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script defer type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script defer type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script defer type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script defer type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script defer type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  <script defer src="/js/src/rouwan-oneko.js" data-cat="/images/rouwan-sprites.png"></script>
+
+  
+  <script defer type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script defer type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script defer type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4-instant"></script>
+
+
+
+  <script async src="/lib/canvas-confetti/confetti.browser.min.js?v=1.9.4"></script>
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <!-- Cloudflare Web Analytics -->
+  <script async type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "aaeb3e3cc6e347c08fbb5600fe9ee95d"}'></script>
+  <!-- End Cloudflare Web Analytics -->
+</body>
+</html>

@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0-swap" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon-tpc.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32-tpc.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16-tpc.png?v=5.1.4">
+
+
+
+
+
+
+  <meta name="keywords" content="前端,CSS,React,问题排查," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="提示词列表明明只在数组末尾追加数据，旧卡片却跟着移动。记录一次 CSS 多列布局导致的分页重排，以及按批次追加的修复。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="照片瀑布流增加乱序问题">
+<meta property="og:url" content="https://tpc28yo.xyz/2026/11/12/%E5%8A%A0%E8%BD%BD%E6%9B%B4%E5%A4%9A%E5%AF%BC%E8%87%B4%E7%80%91%E5%B8%83%E6%B5%81%E5%8D%A1%E7%89%87%E9%87%8D%E6%8E%92/index.html">
+<meta property="og:site_name" content="Tpc">
+<meta property="og:description" content="提示词列表明明只在数组末尾追加数据，旧卡片却跟着移动。记录一次 CSS 多列布局导致的分页重排，以及按批次追加的修复。">
+<meta property="article:published_time" content="2026-11-11T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-11-12T03:57:07.988Z">
+<meta property="article:author" content="Tpc">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="CSS">
+<meta property="article:tag" content="React">
+<meta property="article:tag" content="问题排查">
+<meta name="twitter:card" content="summary">
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://tpc28yo.xyz/2026/11/12/加载更多导致瀑布流卡片重排/"/>
+
+
+
+
+
+  <title>照片瀑布流增加乱序问题 | Tpc</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Tpc</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Aal lzz well</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://tpc28yo.xyz/2026/11/12/%E5%8A%A0%E8%BD%BD%E6%9B%B4%E5%A4%9A%E5%AF%BC%E8%87%B4%E7%80%91%E5%B8%83%E6%B5%81%E5%8D%A1%E7%89%87%E9%87%8D%E6%8E%92/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tpc">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/img/tpc.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Tpc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">照片瀑布流增加乱序问题</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2026-11-12T00:00:00+08:00">
+                2026-11-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tech/" itemprop="url" rel="index">
+                    <span itemprop="name">tech</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  提示词列表明明只在数组末尾追加数据，旧卡片却跟着移动。记录一次 CSS 多列布局导致的分页重排，以及按批次追加的修复。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="出现问题">出现问题</h2>
+<p>最近在调整自己的 AI 提示词站。列表点“加载更多”后，新内容出来了，前面看过的卡片却也换了位置。刚才看到哪张，加载完还得重新找，浏览起来很不舒服。我想要的效果只是把新内容接在最下面，旧卡片留在原处。</p>
+<a id="more"></a>
+<h2 id="排查问题">排查问题</h2>
+<p>先检查接口和列表更新逻辑，发现数据已经是追加到数组末尾，也没有重新排序。卡片用的还是稳定的 ID，所以继续看外层布局。</p>
+<p>问题出在 CSS 多列布局。原来所有卡片都放在同一个 columns 容器里，浏览器会尽量平衡各列高度。新增卡片以后，它会重新分配全部内容，旧卡片的位置也就跟着变了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 原来：所有卡片共用一个多列容器</span><br><span class="line">&lt;div className&#x3D;&quot;columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-5&quot;&gt;</span><br><span class="line">  &#123;prompts.map((prompt) &#x3D;&gt; (</span><br><span class="line">    &lt;PromptCard key&#x3D;&#123;prompt.id&#125; prompt&#x3D;&#123;prompt&#125; lang&#x3D;&#123;lang&#125; &#x2F;&gt;</span><br><span class="line">  ))&#125;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
+<p>本地用原布局复现，从 24 张增加到 48 张，前面的 24 张里有 18 张发生了移动。数据顺序没变，视觉位置却变了。</p>
+<h2 id="解决问题">解决问题</h2>
+<p>把列表改成按加载批次保存，每一批使用独立的多列容器。新的一批直接接在旧批次下方，已有容器里的卡片数量不变，就不会因为追加数据而重新分列，同时保留 ID 去重。</p>
+<p>下面省略请求和点击回调，只保留批次追加与布局代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">const [promptPages, setPromptPages] &#x3D; useState&lt;Prompt[][]&gt;([</span><br><span class="line">  filteredInitialPrompts,</span><br><span class="line">]);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 下一页请求成功后，去重并追加一个新批次</span><br><span class="line">setPromptPages((previous) &#x3D;&gt; &#123;</span><br><span class="line">  const ids &#x3D; new Set(previous.flat().map((prompt) &#x3D;&gt; prompt.id));</span><br><span class="line">  const nextPage &#x3D; data.filter((prompt) &#x3D;&gt; &#123;</span><br><span class="line">    if (ids.has(prompt.id)) return false;</span><br><span class="line">    ids.add(prompt.id);</span><br><span class="line">    return true;</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  return nextPage.length ? [...previous, nextPage] : previous;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;div key&#x3D;&#123;queryKey&#125; className&#x3D;&quot;space-y-5&quot;&gt;</span><br><span class="line">  &#123;promptPages.map((promptPage, index) &#x3D;&gt; (</span><br><span class="line">    &lt;div</span><br><span class="line">      key&#x3D;&#123;index&#125;</span><br><span class="line">      className&#x3D;&quot;columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-5 flow-root&quot;</span><br><span class="line">    &gt;</span><br><span class="line">      &#123;promptPage.map((prompt) &#x3D;&gt; (</span><br><span class="line">        &lt;PromptCard key&#x3D;&#123;prompt.id&#125; prompt&#x3D;&#123;prompt&#125; lang&#x3D;&#123;lang&#125; &#x2F;&gt;</span><br><span class="line">      ))&#125;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">  ))&#125;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
+<p>同一筛选条件下，批次只在末尾追加，所以容器使用下标作为 key；筛选变化时清空旧批次，卡片仍用自身 ID。</p>
+<p>修改后，在桌面、平板和手机宽度下检查，已验证的旧卡片都保持原位，新内容也都追加在底部。每批短列底部可能留一点空白，这个取舍我能接受，至少加载完不用重新找阅读位置了。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag"># 前端</a>
+          
+            <a href="/tags/CSS/" rel="tag"># CSS</a>
+          
+            <a href="/tags/React/" rel="tag"># React</a>
+          
+            <a href="/tags/%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/" rel="tag"># 问题排查</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2026/11/11/%E6%8F%90%E7%A4%BA%E8%AF%8D%E7%AB%99%E5%AE%89%E5%85%A8%E5%8A%A0%E5%9B%BA%E8%AE%B0%E5%BD%95/" rel="next" title="提示词站安全与图片托管调整记录">
+                <i class="fa fa-chevron-left"></i> 提示词站安全与图片托管调整记录
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/assets/img/tpc.png"
+                alt="Tpc" />
+            
+              <p class="site-author-name" itemprop="name">Tpc</p>
+              <p class="site-description motion-element" itemprop="description">我是一条想旅游的咸鱼</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+               
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/TpCBB" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#出现问题"><span class="nav-number">1.</span> <span class="nav-text">出现问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#排查问题"><span class="nav-number">2.</span> <span class="nav-text">排查问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决问题"><span class="nav-number">3.</span> <span class="nav-text">解决问题</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2019 &mdash; <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    
+    <i class="fa fa-smile-o" aria-hidden="true"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tpc</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script defer type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script defer type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script defer type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script defer type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script defer type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script defer type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script defer type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  <script defer src="/js/src/rouwan-oneko.js" data-cat="/images/rouwan-sprites.png"></script>
+
+  
+  <script defer type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script defer type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script defer type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4-instant"></script>
+
+
+
+  <script async src="/lib/canvas-confetti/confetti.browser.min.js?v=1.9.4"></script>
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <!-- Cloudflare Web Analytics -->
+  <script async type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "aaeb3e3cc6e347c08fbb5600fe9ee95d"}'></script>
+  <!-- End Cloudflare Web Analytics -->
+</body>
+</html>

@@ -46,17 +46,23 @@ $(document).ready(function () {
   $(document).trigger('motion:before');
 
   // Bootstrap Motion.
-  CONFIG.motion.enable && NexT.motion.integrator.bootstrap();
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator.bootstrap();
+  } else if (CONFIG.sidebar.display === 'always' && !$('.post-toc-content').length) {
+    // Pages with a table of contents open their sidebar in post-details.js.
+    NexT.utils.displaySidebar();
+  }
 
   $(document).trigger('bootstrap:after');
 
 
   const boomConfetti = (clickEvent) => {
-  const { clientX, clientY } = clickEvent;
-  const { innerWidth, innerHeight } = window;
-  const y = clientY / innerHeight;
-  const x = clientX / innerWidth;
-  confetti({
+    if (typeof window.confetti !== 'function') return;
+    const { clientX, clientY } = clickEvent;
+    const { innerWidth, innerHeight } = window;
+    const y = clientY / innerHeight;
+    const x = clientX / innerWidth;
+    window.confetti({
       startVelocity: 20,
       spread: 360,
       ticks: 60,
