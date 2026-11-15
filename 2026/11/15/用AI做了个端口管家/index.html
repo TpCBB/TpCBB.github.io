@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0-swap" rel="stylesheet" type="text/css" />
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon-tpc.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32-tpc.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16-tpc.png?v=5.1.4">
+
+
+
+
+
+
+  <meta name="keywords" content="AI,开发工具,macOS,个人项目," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="AI 同时跑了几个项目，端口也跟着越来越乱。干脆让 AI 帮我做了个端口管家，记录一下从提需求、改功能到发布的过程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用 AI 做了个端口管家">
+<meta property="og:url" content="https://tpc28yo.xyz/2026/11/15/%E7%94%A8AI%E5%81%9A%E4%BA%86%E4%B8%AA%E7%AB%AF%E5%8F%A3%E7%AE%A1%E5%AE%B6/index.html">
+<meta property="og:site_name" content="Tpc">
+<meta property="og:description" content="AI 同时跑了几个项目，端口也跟着越来越乱。干脆让 AI 帮我做了个端口管家，记录一下从提需求、改功能到发布的过程。">
+<meta property="og:image" content="https://tpc28yo.xyz/assets/img/port-manager/main.webp">
+<meta property="article:published_time" content="2026-11-15T15:10:00.000Z">
+<meta property="article:modified_time" content="2026-11-15T15:11:25.932Z">
+<meta property="article:author" content="Tpc">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="开发工具">
+<meta property="article:tag" content="macOS">
+<meta property="article:tag" content="个人项目">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://tpc28yo.xyz/assets/img/port-manager/main.webp">
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://tpc28yo.xyz/2026/11/15/用AI做了个端口管家/"/>
+
+
+
+
+
+  <title>用 AI 做了个端口管家 | Tpc</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Tpc</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Aal lzz well</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://tpc28yo.xyz/2026/11/15/%E7%94%A8AI%E5%81%9A%E4%BA%86%E4%B8%AA%E7%AB%AF%E5%8F%A3%E7%AE%A1%E5%AE%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tpc">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/img/tpc.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Tpc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">用 AI 做了个端口管家</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2026-11-15T23:10:00+08:00">
+                2026-11-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tech/" itemprop="url" rel="index">
+                    <span itemprop="name">tech</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  AI 同时跑了几个项目，端口也跟着越来越乱。干脆让 AI 帮我做了个端口管家，记录一下从提需求、改功能到发布的过程。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近用 AI 写项目，经常同时开着几个。前端一个服务，后端一个服务，再加上临时预览，3000、5173、8080 都有人用。</p>
+<p>开的时候挺方便，收的时候就麻烦了。终端翻来翻去，下次启动又提示端口被占用，还得查是谁在跑、找 PID，再把进程关掉。</p>
+<p>次数多了，我就想干脆做个小工具，把这些信息放到一个界面里。于是有了 <strong>Port Manager，端口管家</strong>。开发过程也继续让 AI 帮忙，从应用到官网，一点点补齐。</p>
+<a id="more"></a>
+<h2 id="先解决我自己嫌麻烦的事">先解决我自己嫌麻烦的事</h2>
+<p>我需要的功能很直接：能看到哪些端口在用，搜一下就能找到，点开知道是什么程序，确认以后可以结束进程。平时收在菜单栏里，用的时候再打开。</p>
+<p>尤其是列表里一排 <code>node</code> 的时候，光看进程名没什么用。我更想知道它是从哪个目录启动的，启动命令是什么，免得把还在用的服务关了。</p>
+<p>现在 macOS 版可以查看端口、启动命令和工作目录，也能从菜单栏直接搜索、结束进程。关掉主窗口以后，工具还留在菜单栏，不用一直占着桌面。</p>
+<p><img src="/assets/img/port-manager/main.webp" alt="端口管家主窗口：搜索端口，查看启动命令和工作目录" /></p>
+<p><em>上图是 v1.2.0 的界面截图，使用示例数据，方便展示功能。</em></p>
+<h2 id="我是怎么让-ai-做的">我是怎么让 AI 做的</h2>
+<p>我平时主要写前端，这次 macOS 客户端用了 SwiftUI 和 AppKit。原生界面的实现、系统信息怎么读取、应用怎么打包，都让 AI 帮着往下做。</p>
+<p>但提需求还是得具体。只说“做一个端口管理工具”，很容易得到一个能展示列表、看着也不错的界面。真正用起来，还会有一堆小地方不顺手。</p>
+<p>比如搜索，我会说清楚要支持端口、PID、应用名和命令；比如关闭窗口，要继续留在菜单栏；比如结束进程，要先让我看清楚会影响哪些端口。</p>
+<p>我的做法就是围着实际操作往下改：查一个端口，看看能不能确认来源，再看结束进程时的提示够不够清楚。界面、功能和提示一起调整。AI 可以继续写代码，我负责把“这样能跑”和“这样用着舒服”之间的差别说出来。</p>
+<p>这里有个细节我比较在意：<strong>结束的是进程，这个进程可能占着不止一个端口。</strong> 所以确认框要列出关联端口，执行前再核对进程身份和端口归属，执行后重新扫描。普通结束和强制结束也分开，不能为了少点一次按钮就直接全杀掉。</p>
+<h2 id="中间也碰到了实际问题">中间也碰到了实际问题</h2>
+<p>有一次自动检查没过，查下来是 macOS 版读取端口的逻辑有问题。</p>
+<p>底层用 <code>lsof</code> 查询端口。当其中一种筛选没有匹配项时，它可能返回状态码 <code>1</code>，同时输出另一种筛选查到的有效记录。原来的处理太简单，看到非零状态码就报错，结果明明查到了端口，应用却当成读取失败。</p>
+<p>后来把几种情况拆开：有有效结果、确实为空、有错误输出、查询被中断，分别处理，再补上对应测试。</p>
+<p>这种问题只看界面截图看不出来。让 AI 把功能写出来以后，还是得让程序实际跑起来，看输出、看失败原因，再继续改。比起一直催它“再检查一下”，把哪里不对说清楚更有用。</p>
+<h2 id="官网也得按实际使用来改">官网也得按实际使用来改</h2>
+<p>应用做出来以后，我又让 AI 帮忙做了官网，放上截图、功能说明和下载入口。官网现在的那句话，我觉得比较贴这个工具的用途：</p>
+<blockquote>
+<p>Agent 跑项目，端口我来管。</p>
+</blockquote>
+<p>后来加了 Windows 预览版，下载按钮也跟着改。Windows 用户打开就推荐 Windows，Mac 用户打开就推荐 Mac，其他版本放在旁边。这个需求很小，但比让用户自己从一堆安装包里找要省事。</p>
+<p>目前发布的是 <strong>v1.3.0 预览版</strong>。macOS 版支持 Apple Silicon、macOS 13 及以上；Windows 版也能查看端口和管理进程，不过功能还没完全对齐，暂时不能读取工作目录。安装时的签名提示和具体要求，下载页里有说明。</p>
+<h2 id="做完以后的一点感受">做完以后的一点感受</h2>
+<p>这次让我觉得，AI 挺适合拿来做这种自己确实要用的小工具。需求就在日常开发里，做出来马上就能试，哪里别扭也比较容易发现。</p>
+<p>代码、界面、官网和打包流程，它都能帮上忙。我需要一直盯着的是：功能有没有解决原来的麻烦，操作会不会让人误解，还有哪些地方只是看起来完成了。</p>
+<p>端口管家现在还不会自动识别某个 AI 会话，也不能一键清理整个项目。我先把查看来源、确认结束这件事做好，省掉自己反复查端口的时间就够了。</p>
+<ul>
+<li><a href="https://port-manager.tpc28yo.xyz/" target="_blank" rel="noopener">官网</a></li>
+<li><a href="https://github.com/TpCBB/port-manager" target="_blank" rel="noopener">GitHub 源码</a></li>
+<li><a href="https://github.com/TpCBB/port-manager/releases/tag/v1.3.0" target="_blank" rel="noopener">下载安装包</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/AI/" rel="tag"># AI</a>
+          
+            <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" rel="tag"># 开发工具</a>
+          
+            <a href="/tags/macOS/" rel="tag"># macOS</a>
+          
+            <a href="/tags/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/" rel="tag"># 个人项目</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2026/11/12/%E5%8A%A0%E8%BD%BD%E6%9B%B4%E5%A4%9A%E5%AF%BC%E8%87%B4%E7%80%91%E5%B8%83%E6%B5%81%E5%8D%A1%E7%89%87%E9%87%8D%E6%8E%92/" rel="next" title="照片瀑布流增加乱序问题">
+                <i class="fa fa-chevron-left"></i> 照片瀑布流增加乱序问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/assets/img/tpc.png"
+                alt="Tpc" />
+            
+              <p class="site-author-name" itemprop="name">Tpc</p>
+              <p class="site-description motion-element" itemprop="description">我是一条想旅游的咸鱼</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+               
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/TpCBB" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#先解决我自己嫌麻烦的事"><span class="nav-number">1.</span> <span class="nav-text">先解决我自己嫌麻烦的事</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#我是怎么让-ai-做的"><span class="nav-number">2.</span> <span class="nav-text">我是怎么让 AI 做的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#中间也碰到了实际问题"><span class="nav-number">3.</span> <span class="nav-text">中间也碰到了实际问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#官网也得按实际使用来改"><span class="nav-number">4.</span> <span class="nav-text">官网也得按实际使用来改</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#做完以后的一点感受"><span class="nav-number">5.</span> <span class="nav-text">做完以后的一点感受</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2019 &mdash; <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    
+    <i class="fa fa-smile-o" aria-hidden="true"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tpc</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script defer type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script defer type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script defer type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script defer type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script defer type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script defer type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script defer type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  <script defer src="/js/src/rouwan-oneko.js" data-cat="/images/rouwan-sprites.png"></script>
+
+  
+  <script defer type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script defer type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script defer type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4-instant"></script>
+
+
+
+  <script async src="/lib/canvas-confetti/confetti.browser.min.js?v=1.9.4"></script>
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <!-- Cloudflare Web Analytics -->
+  <script async type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "aaeb3e3cc6e347c08fbb5600fe9ee95d"}'></script>
+  <!-- End Cloudflare Web Analytics -->
+</body>
+</html>
