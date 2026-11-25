@@ -83,7 +83,7 @@
 <meta property="og:site_name" content="Tpc">
 <meta property="og:description" content="小程序主包体积分析和业务分包的记录">
 <meta property="article:published_time" content="2026-01-15T04:00:00.000Z">
-<meta property="article:modified_time" content="2026-11-24T05:30:15.902Z">
+<meta property="article:modified_time" content="2026-11-25T03:30:10.000Z">
 <meta property="article:author" content="Tpc">
 <meta property="article:tag" content="前端工程化">
 <meta property="article:tag" content="性能优化">
@@ -338,7 +338,7 @@
           
 
           
-            <span class="post-meta-divider">|</span>
+            <span class="post-meta-divider page-pv-divider">|</span>
             <span class="page-pv"><i class="fa fa-file-o"></i>
             <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
             </span>
@@ -626,22 +626,28 @@
 </div>
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
 
 
 
-  <span class="post-meta-divider">|</span>
 
 
-
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
-
+<div class="footer-log">
+  <a href="/archives/"><code aria-hidden="true">$ git log</code> 文章归档 <span aria-hidden="true">→</span></a>
+</div>
 
 
 
         
 <div class="busuanzi-count">
-  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <script>
+    if (location.hostname === new URL('https://tpc28yo.xyz').hostname) {
+      document.documentElement.classList.add('site-counters-enabled');
+      var counterScript = document.createElement('script');
+      counterScript.async = true;
+      counterScript.src = 'https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js';
+      document.head.appendChild(counterScript);
+    }
+  </script>
 
   
     <span class="site-uv">

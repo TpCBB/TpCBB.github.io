@@ -65,7 +65,7 @@
 
 
 
-  <meta name="keywords" content="React,AI 应用,Next.js,TypeScript," />
+  <meta name="keywords" content="React,Next.js,AI 应用,TypeScript," />
 
 
 
@@ -83,11 +83,11 @@
 <meta property="og:site_name" content="Tpc">
 <meta property="og:description" content="记录如何指挥 AI 帮我把一个 171 题的前端面试练习工具工程化落地。重点拆解：在严苛的 JSON 结构下，如何手搓流式 SSE 增量解析、未闭合转义容错以及字素级打字机效果。">
 <meta property="article:published_time" content="2026-11-16T16:15:00.000Z">
-<meta property="article:modified_time" content="2026-11-24T05:31:18.857Z">
+<meta property="article:modified_time" content="2026-11-25T03:30:10.000Z">
 <meta property="article:author" content="Tpc">
 <meta property="article:tag" content="React">
-<meta property="article:tag" content="AI 应用">
 <meta property="article:tag" content="Next.js">
+<meta property="article:tag" content="AI 应用">
 <meta property="article:tag" content="TypeScript">
 <meta name="twitter:card" content="summary">
 
@@ -339,7 +339,7 @@
           
 
           
-            <span class="post-meta-divider">|</span>
+            <span class="post-meta-divider page-pv-divider">|</span>
             <span class="page-pv"><i class="fa fa-file-o"></i>
             <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
             </span>
@@ -454,9 +454,9 @@
           
             <a href="/tags/React/" rel="tag"># React</a>
           
-            <a href="/tags/AI-%E5%BA%94%E7%94%A8/" rel="tag"># AI 应用</a>
-          
             <a href="/tags/Next-js/" rel="tag"># Next.js</a>
+          
+            <a href="/tags/AI-%E5%BA%94%E7%94%A8/" rel="tag"># AI 应用</a>
           
             <a href="/tags/TypeScript/" rel="tag"># TypeScript</a>
           
@@ -662,22 +662,28 @@
 </div>
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
 
 
 
-  <span class="post-meta-divider">|</span>
 
 
-
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
-
+<div class="footer-log">
+  <a href="/archives/"><code aria-hidden="true">$ git log</code> 文章归档 <span aria-hidden="true">→</span></a>
+</div>
 
 
 
         
 <div class="busuanzi-count">
-  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  <script>
+    if (location.hostname === new URL('https://tpc28yo.xyz').hostname) {
+      document.documentElement.classList.add('site-counters-enabled');
+      var counterScript = document.createElement('script');
+      counterScript.async = true;
+      counterScript.src = 'https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js';
+      document.head.appendChild(counterScript);
+    }
+  </script>
 
   
     <span class="site-uv">
