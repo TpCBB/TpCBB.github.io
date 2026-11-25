@@ -7,7 +7,7 @@
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
 <meta name="theme-color" content="#222">
 
 
@@ -38,7 +38,8 @@
 
   
   
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+  <link rel="preload" href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" /></noscript>
 
 
 
@@ -46,8 +47,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0-swap" rel="stylesheet" type="text/css" />
 <link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+<link rel="preload" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0-swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+<noscript><link href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0-swap" rel="stylesheet" type="text/css" /></noscript>
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon-tpc.png?v=5.1.4">
@@ -127,6 +129,21 @@
 
 
 
+  <script>
+    (function () {
+      try {
+        if (
+          window.CONFIG &&
+          CONFIG.sidebar &&
+          CONFIG.sidebar.display === 'always' &&
+          window.innerWidth >= 992 &&
+          sessionStorage.getItem('tpc-sidebar-closed') !== '1'
+        ) {
+          document.documentElement.classList.add('sidebar-preopen');
+        }
+      } catch (e) {}
+    })();
+  </script>
 <meta name="generator" content="Hexo 4.2.1"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -157,7 +174,7 @@
   </div>
 
   <div class="site-nav-toggle">
-    <button>
+    <button type="button" aria-label="站点导航" aria-controls="site-nav" aria-expanded="false">
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
@@ -165,11 +182,12 @@
   </div>
 </div>
 
-<nav class="site-nav">
+<nav id="site-nav" class="site-nav" aria-label="站点导航">
   
 
   
-    <ul id="menu" class="menu">
+    
+    <ul id="menu" class="menu sakuga-nav">
       
         
         <li class="menu-item menu-item-home">
@@ -203,7 +221,7 @@
       
         
         <li class="menu-item menu-item-archives">
-          <a href="/archives" rel="section">
+          <a href="/archives" rel="section" aria-current="location">
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
@@ -404,9 +422,14 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image"
-                src="/assets/img/tpc.png"
-                alt="Tpc" />
+              <picture class="site-author-picture">
+                
+                  <source srcset="/assets/img/tpc-avatar.webp" type="image/webp" />
+                
+                <img class="site-author-image" itemprop="image" width="92" height="92" decoding="async"
+                  src="/assets/img/tpc.png"
+                  alt="Tpc" />
+              </picture>
             
               <p class="site-author-name" itemprop="name">Tpc</p>
               <p class="site-description motion-element" itemprop="description">我是一条想旅游的咸鱼</p>
@@ -431,7 +454,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -442,7 +465,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -538,18 +561,6 @@
 
   
 
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
 
 
   
@@ -567,28 +578,7 @@
 
   
   
-    
-    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-  
-
-  
-  
-    <script defer type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-  
-
-  
-  
-    <script defer type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-  
-
-  
-  
-    <script defer type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script defer type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+    <script defer type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
   
 
   
@@ -604,12 +594,21 @@
 
   <script defer type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
 
+  <script defer type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+
+  <script defer type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
 
 
   
   
 
-  <script defer src="/js/src/rouwan-oneko.js" data-cat="/images/rouwan-sprites.png"></script>
+  <script defer src="/lib/sakuga-vfx/core.js"></script>
+  <script defer src="/js/src/sakuga-navigation.js"></script>
+
+  <script defer src="/lib/gsap/gsap.min.js"></script>
+  <script defer src="/lib/gsap/ScrollTrigger.min.js"></script>
+  <script defer src="/js/src/motion-gsap.js"></script>
 
   
 
@@ -676,8 +675,16 @@
 
   
 
-  <!-- Cloudflare Web Analytics -->
-  <script async type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "aaeb3e3cc6e347c08fbb5600fe9ee95d"}'></script>
+  <!-- Cloudflare Web Analytics (Production Only) -->
+  <script>
+    if (location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+      var cf = document.createElement('script');
+      cf.async = true;
+      cf.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+      cf.setAttribute('data-cf-beacon', '{"token": "aaeb3e3cc6e347c08fbb5600fe9ee95d"}');
+      document.body.appendChild(cf);
+    }
+  </script>
   <!-- End Cloudflare Web Analytics -->
 </body>
 </html>

@@ -3,183 +3,206 @@
 $(document).ready(function () {
   NexT.motion = {};
 
-  var sidebarToggleLines = {
-    lines: [],
-    push: function (line) {
-      this.lines.push(line);
-    },
-    init: function () {
-      this.lines.forEach(function (line) {
-        line.init();
-      });
-    },
-    arrow: function () {
-      this.lines.forEach(function (line) {
-        line.arrow();
-      });
-    },
-    close: function () {
-      this.lines.forEach(function (line) {
-        line.close();
-      });
-    }
-  };
-
-  function SidebarToggleLine(settings) {
-    this.el = $(settings.el);
-    this.status = $.extend({}, {
-      init: {
-        width: '100%',
-        opacity: 1,
-        left: 0,
-        rotateZ: 0,
-        top: 0
-      }
-    }, settings.status);
-  }
-
-  SidebarToggleLine.prototype.init = function () {
-    this.transform('init');
-  };
-  SidebarToggleLine.prototype.arrow = function () {
-    this.transform('arrow');
-  };
-  SidebarToggleLine.prototype.close = function () {
-    this.transform('close');
-  };
-  SidebarToggleLine.prototype.transform = function (status) {
-    this.el.velocity('stop').velocity(this.status[status]);
-  };
-
-  var sidebarToggleLine1st = new SidebarToggleLine({
-    el: '.sidebar-toggle-line-first',
-    status: {
-      arrow: {width: '50%', rotateZ: '-45deg', top: '2px'},
-      close: {width: '100%', rotateZ: '-45deg', top: '5px'}
-    }
-  });
-  var sidebarToggleLine2nd = new SidebarToggleLine({
-    el: '.sidebar-toggle-line-middle',
-    status: {
-      arrow: {width: '90%'},
-      close: {opacity: 0}
-    }
-  });
-  var sidebarToggleLine3rd = new SidebarToggleLine({
-    el: '.sidebar-toggle-line-last',
-    status: {
-      arrow: {width: '50%', rotateZ: '45deg', top: '-2px'},
-      close: {width: '100%', rotateZ: '45deg', top: '-5px'}
-    }
-  });
-
-  sidebarToggleLines.push(sidebarToggleLine1st);
-  sidebarToggleLines.push(sidebarToggleLine2nd);
-  sidebarToggleLines.push(sidebarToggleLine3rd);
-
-  var SIDEBAR_WIDTH = '320px';
-  var SIDEBAR_DISPLAY_DURATION = 200;
+  var SIDEBAR_WIDTH = 320;
   var xPos, yPos;
+
+  var line1 = document.querySelector('.sidebar-toggle-line-first');
+  var line2 = document.querySelector('.sidebar-toggle-line-middle');
+  var line3 = document.querySelector('.sidebar-toggle-line-last');
+
+  function morphToggleIcon(state, immediate) {
+    var g = window.gsap;
+    if (!g || !line1 || !line2 || !line3) return;
+    var dur = immediate ? 0 : 0.3;
+    if (state === 'close') {
+      g.to(line1, { x: 0, y: 5, rotation: -45, width: '100%', transformOrigin: '50% 50%', duration: dur, ease: 'back.out(2)', overwrite: 'auto' });
+      g.to(line2, { scaleX: 0, opacity: 0, transformOrigin: '50% 50%', duration: immediate ? 0 : 0.16, overwrite: 'auto' });
+      g.to(line3, { x: 0, y: -5, rotation: 45, width: '100%', transformOrigin: '50% 50%', duration: dur, ease: 'back.out(2)', overwrite: 'auto' });
+    } else if (state === 'arrow') {
+      g.to(line1, { x: 0, y: 5, rotation: -38, width: '62%', transformOrigin: '0% 50%', duration: 0.22, ease: 'power2.out', overwrite: 'auto' });
+      g.to(line2, { scaleX: 1, opacity: 1, width: '100%', transformOrigin: '50% 50%', duration: 0.18, overwrite: 'auto' });
+      g.to(line3, { x: 0, y: -5, rotation: 38, width: '62%', transformOrigin: '0% 50%', duration: 0.22, ease: 'power2.out', overwrite: 'auto' });
+    } else {
+      g.to(line1, { x: 0, y: 0, rotation: 0, width: '100%', transformOrigin: '50% 50%', duration: dur, ease: 'back.out(1.8)', overwrite: 'auto' });
+      g.to(line2, { scaleX: 1, opacity: 1, width: '100%', transformOrigin: '50% 50%', duration: immediate ? 0 : 0.2, overwrite: 'auto' });
+      g.to(line3, { x: 0, y: 0, rotation: 0, width: '100%', transformOrigin: '50% 50%', duration: dur, ease: 'back.out(1.8)', overwrite: 'auto' });
+    }
+  }
 
   var sidebarToggleMotion = {
     toggleEl: $('.sidebar-toggle'),
     dimmerEl: $('#sidebar-dimmer'),
     sidebarEl: $('.sidebar'),
-    isSidebarVisible: false,
+    isSidebarVisible: document.documentElement.classList.contains('sidebar-preopen'),
     init: function () {
+      var sidebarNode = this.sidebarEl[0];
+      var g = window.gsap;
+
+      if (sidebarNode && g && window.innerWidth >= 992) {
+        g.set(sidebarNode, {
+          width: SIDEBAR_WIDTH,
+          display: 'block',
+          xPercent: this.isSidebarVisible ? 0 : 100
+        });
+        g.set(document.body, { paddingRight: this.isSidebarVisible ? SIDEBAR_WIDTH : 0 });
+        this.sidebarEl.find('.motion-element').css({ opacity: 1 });
+        if (this.isSidebarVisible) {
+          this.sidebarEl.addClass('sidebar-active');
+        }
+        morphToggleIcon(this.isSidebarVisible ? 'close' : 'init', true);
+        document.documentElement.classList.add('sidebar-gsap-ready');
+      }
+
       this.toggleEl.on('click', this.clickHandler.bind(this));
       this.dimmerEl.on('click', this.clickHandler.bind(this));
       this.toggleEl.on('mouseenter', this.mouseEnterHandler.bind(this));
       this.toggleEl.on('mouseleave', this.mouseLeaveHandler.bind(this));
       this.sidebarEl.on('touchstart', this.touchstartHandler.bind(this));
       this.sidebarEl.on('touchend', this.touchendHandler.bind(this));
-      this.sidebarEl.on('touchmove', function(e){e.preventDefault();});
 
-      $(document)
-        .on('sidebar.isShowing', function () {
-          NexT.utils.isDesktop() && $('body').velocity('stop').velocity(
-            {paddingRight: SIDEBAR_WIDTH},
-            SIDEBAR_DISPLAY_DURATION
-          );
-        })
-        .on('sidebar.isHiding', function () {
-        });
+      var self = this;
+      window.addEventListener('resize', function () {
+        if (!sidebarNode || !window.gsap) return;
+        if (window.innerWidth < 992) {
+          window.gsap.set(document.body, { clearProps: 'paddingRight' });
+          window.gsap.set(sidebarNode, { clearProps: 'width,display,transform' });
+        } else {
+          window.gsap.set(sidebarNode, { width: SIDEBAR_WIDTH, display: 'block', xPercent: self.isSidebarVisible ? 0 : 100 });
+          window.gsap.set(document.body, { paddingRight: self.isSidebarVisible ? SIDEBAR_WIDTH : 0 });
+        }
+      }, { passive: true });
     },
     clickHandler: function () {
+      var fx = window.SakugaFX;
+      var btn = this.toggleEl[0];
+      if (fx && !fx.calm && btn) {
+        var p = fx.at(btn, 0.5, 0.5);
+        fx.ticks(p.x, p.y, { dir: this.isSidebarVisible ? 0 : Math.PI, r: 22, len: 8, n: 3, life: 0.32 });
+      }
       this.isSidebarVisible ? this.hideSidebar() : this.showSidebar();
       this.isSidebarVisible = !this.isSidebarVisible;
     },
     mouseEnterHandler: function () {
-      if (this.isSidebarVisible) {
-        return;
-      }
-      sidebarToggleLines.arrow();
+      if (this.isSidebarVisible) return;
+      morphToggleIcon('arrow', false);
     },
     mouseLeaveHandler: function () {
-      if (this.isSidebarVisible) {
-        return;
-      }
-      sidebarToggleLines.init();
+      if (this.isSidebarVisible) return;
+      morphToggleIcon('init', false);
     },
-    touchstartHandler: function(e) {
+    touchstartHandler: function (e) {
       xPos = e.originalEvent.touches[0].clientX;
       yPos = e.originalEvent.touches[0].clientY;
     },
-    touchendHandler: function(e) {
+    touchendHandler: function (e) {
       var _xPos = e.originalEvent.changedTouches[0].clientX;
       var _yPos = e.originalEvent.changedTouches[0].clientY;
-      if (_xPos-xPos > 30 && Math.abs(_yPos-yPos) < 20) {
-          this.clickHandler();
+      if (_xPos - xPos > 30 && Math.abs(_yPos - yPos) < 20) {
+        this.clickHandler();
       }
     },
     showSidebar: function () {
       var self = this;
+      var g = window.gsap;
+      var sidebarNode = this.sidebarEl[0];
+      var contentWrap = document.querySelector('.content-wrap');
+      var prevLeft = contentWrap ? contentWrap.getBoundingClientRect().left : 0;
 
-      sidebarToggleLines.close();
+      try {
+        sessionStorage.removeItem('tpc-sidebar-closed');
+      } catch (e) {}
+      document.documentElement.classList.add('sidebar-preopen');
 
-      this.sidebarEl.velocity('stop').velocity({
-          width: SIDEBAR_WIDTH
-        }, {
-          display: 'block',
-          duration: SIDEBAR_DISPLAY_DURATION,
-          begin: function () {
-            $('.sidebar .motion-element').velocity(
-              'transition.slideRightIn',
-              {
-                stagger: 50,
-                drag: true,
-                complete: function () {
-                  self.sidebarEl.trigger('sidebar.motion.complete');
-                }
-              }
-            );
-          },
-          complete: function () {
-            self.sidebarEl.addClass('sidebar-active');
-            self.sidebarEl.trigger('sidebar.didShow');
+      morphToggleIcon('close', false);
+      this.sidebarEl.addClass('sidebar-active');
+      this.sidebarEl.trigger('sidebar.isShowing');
+
+      if (g && sidebarNode) {
+        g.set(sidebarNode, { width: SIDEBAR_WIDTH, display: 'block' });
+        if (window.innerWidth >= 992) {
+          g.set(document.body, { paddingRight: SIDEBAR_WIDTH });
+          if (contentWrap) {
+            var dx = prevLeft - contentWrap.getBoundingClientRect().left;
+            if (Math.abs(dx) > 1) {
+              g.fromTo(
+                '.container .header-inner, .container .content-wrap, .container .footer-inner',
+                { x: dx },
+                { x: 0, duration: 0.3, ease: 'expo.out', overwrite: 'auto', clearProps: 'transform' }
+              );
+            }
           }
         }
-      );
+        g.to(sidebarNode, {
+          xPercent: 0,
+          duration: 0.3,
+          ease: 'expo.out',
+          overwrite: 'auto',
+          onComplete: function () {
+            self.sidebarEl.trigger('sidebar.didShow');
+            self.sidebarEl.trigger('sidebar.motion.complete');
+            if (window.ScrollTrigger) window.ScrollTrigger.refresh();
+          }
+        });
 
-      this.sidebarEl.trigger('sidebar.isShowing');
+        var staggerItems = sidebarNode.querySelectorAll(
+          '.sidebar-nav, .sidebar-panel-active .site-author-image, .sidebar-panel-active .site-author-name, .sidebar-panel-active .site-description, .sidebar-panel-active .site-state-item, .sidebar-panel-active .links-of-author-item'
+        );
+        if (staggerItems.length) {
+          g.fromTo(
+            staggerItems,
+            { x: 14, opacity: 0 },
+            {
+              x: 0,
+              opacity: 1,
+              duration: 0.24,
+              stagger: 0.02,
+              ease: 'power2.out',
+              overwrite: 'auto',
+              clearProps: 'transform,opacity'
+            }
+          );
+        }
+      }
     },
     hideSidebar: function () {
-      NexT.utils.isDesktop() && $('body').velocity('stop').velocity({paddingRight: 0});
-      this.sidebarEl.find('.motion-element').velocity('stop').css('display', 'none');
-      this.sidebarEl.velocity('stop').velocity({width: 0}, {display: 'none'});
+      var self = this;
+      var g = window.gsap;
+      var sidebarNode = this.sidebarEl[0];
+      var contentWrap = document.querySelector('.content-wrap');
+      var prevLeft = contentWrap ? contentWrap.getBoundingClientRect().left : 0;
 
-      sidebarToggleLines.init();
+      try {
+        sessionStorage.setItem('tpc-sidebar-closed', '1');
+      } catch (e) {}
+      document.documentElement.classList.remove('sidebar-preopen');
 
+      morphToggleIcon('init', false);
       this.sidebarEl.removeClass('sidebar-active');
       this.sidebarEl.trigger('sidebar.isHiding');
 
-      // Prevent adding TOC to Overview if Overview was selected when close & open sidebar.
-      if (!!$('.post-toc-wrap')) {
-        if ($('.site-overview-wrap').css('display') === 'block') {
-          $('.post-toc-wrap').removeClass('motion-element');
-        } else {
-          $('.post-toc-wrap').addClass('motion-element');
+      if (g && sidebarNode) {
+        if (window.innerWidth >= 992) {
+          g.set(document.body, { paddingRight: 0 });
+          if (contentWrap) {
+            var dx = prevLeft - contentWrap.getBoundingClientRect().left;
+            if (Math.abs(dx) > 1) {
+              g.fromTo(
+                '.container .header-inner, .container .content-wrap, .container .footer-inner',
+                { x: dx },
+                { x: 0, duration: 0.28, ease: 'power3.out', overwrite: 'auto', clearProps: 'transform' }
+              );
+            }
+          }
         }
+        g.to(sidebarNode, {
+          xPercent: 100,
+          duration: 0.28,
+          ease: 'power3.out',
+          overwrite: 'auto',
+          onComplete: function () {
+            if (window.ScrollTrigger) window.ScrollTrigger.refresh();
+          }
+        });
       }
     }
   };

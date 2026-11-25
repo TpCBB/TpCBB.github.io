@@ -7,7 +7,7 @@
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
 <meta name="theme-color" content="#222">
 
 
@@ -38,7 +38,8 @@
 
   
   
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+  <link rel="preload" href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" /></noscript>
 
 
 
@@ -46,8 +47,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0-swap" rel="stylesheet" type="text/css" />
 <link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+<link rel="preload" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0-swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+<noscript><link href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0-swap" rel="stylesheet" type="text/css" /></noscript>
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon-tpc.png?v=5.1.4">
@@ -76,12 +78,12 @@
 
 <meta name="description" content="我是一条想旅游的咸鱼">
 <meta property="og:type" content="website">
-<meta property="og:title" content="tags">
+<meta property="og:title" content="标签">
 <meta property="og:url" content="https://tpc28yo.xyz/tags/index.html">
 <meta property="og:site_name" content="Tpc">
 <meta property="og:description" content="我是一条想旅游的咸鱼">
 <meta property="article:published_time" content="2020-07-23T07:23:40.000Z">
-<meta property="article:modified_time" content="2026-05-14T11:22:49.745Z">
+<meta property="article:modified_time" content="2026-11-24T05:28:57.968Z">
 <meta property="article:author" content="Tpc">
 <meta property="article:tag" content="cys">
 <meta name="twitter:card" content="summary">
@@ -119,7 +121,7 @@
 
 
 
-  <title>tags | Tpc</title>
+  <title>标签 | Tpc</title>
   
 
 
@@ -129,6 +131,21 @@
 
 
 
+  <script>
+    (function () {
+      try {
+        if (
+          window.CONFIG &&
+          CONFIG.sidebar &&
+          CONFIG.sidebar.display === 'always' &&
+          window.innerWidth >= 992 &&
+          sessionStorage.getItem('tpc-sidebar-closed') !== '1'
+        ) {
+          document.documentElement.classList.add('sidebar-preopen');
+        }
+      } catch (e) {}
+    })();
+  </script>
 <meta name="generator" content="Hexo 4.2.1"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -159,7 +176,7 @@
   </div>
 
   <div class="site-nav-toggle">
-    <button>
+    <button type="button" aria-label="站点导航" aria-controls="site-nav" aria-expanded="false">
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
@@ -167,11 +184,13 @@
   </div>
 </div>
 
-<nav class="site-nav">
+<nav id="site-nav" class="site-nav" aria-label="站点导航">
   
 
   
-    <ul id="menu" class="menu">
+    
+    
+    <ul id="menu" class="menu sakuga-nav">
       
         
         <li class="menu-item menu-item-home">
@@ -185,7 +204,7 @@
       
         
         <li class="menu-item menu-item-tags">
-          <a href="/tags" rel="section">
+          <a href="/tags" rel="section" aria-current="location">
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
@@ -239,7 +258,7 @@
     <div class="post-block page">
       <header class="post-header">
 
-	<h1 class="post-title" itemprop="name headline">tags</h1>
+	<h1 class="post-title" itemprop="name headline">标签</h1>
 
 
 
@@ -253,10 +272,125 @@
         
           <div class="tag-cloud">
             <div class="tag-cloud-title">
-                目前共计 37 个标签
+                目前共计 19 个标签
             </div>
             <div class="tag-cloud-tags">
-              <a href="/tags/AI/" style="font-size: 12px; color: #ccc">AI</a> <a href="/tags/AI%E5%BC%80%E5%8F%91/" style="font-size: 12px; color: #ccc">AI开发</a> <a href="/tags/BFF/" style="font-size: 12px; color: #ccc">BFF</a> <a href="/tags/CSS/" style="font-size: 12px; color: #ccc">CSS</a> <a href="/tags/Cloudflare/" style="font-size: 12px; color: #ccc">Cloudflare</a> <a href="/tags/ERC-20/" style="font-size: 12px; color: #ccc">ERC-20</a> <a href="/tags/JSON-Schema/" style="font-size: 18px; color: #8e8e8e">JSON Schema</a> <a href="/tags/JavaScript/" style="font-size: 12px; color: #ccc">JavaScript</a> <a href="/tags/Koa/" style="font-size: 12px; color: #ccc">Koa</a> <a href="/tags/Next-js/" style="font-size: 18px; color: #8e8e8e">Next.js</a> <a href="/tags/Node-js/" style="font-size: 18px; color: #8e8e8e">Node.js</a> <a href="/tags/R2/" style="font-size: 12px; color: #ccc">R2</a> <a href="/tags/React/" style="font-size: 18px; color: #8e8e8e">React</a> <a href="/tags/Redux/" style="font-size: 12px; color: #ccc">Redux</a> <a href="/tags/SSE/" style="font-size: 12px; color: #ccc">SSE</a> <a href="/tags/Supabase/" style="font-size: 12px; color: #ccc">Supabase</a> <a href="/tags/TypeScript/" style="font-size: 12px; color: #ccc">TypeScript</a> <a href="/tags/URL/" style="font-size: 12px; color: #ccc">URL</a> <a href="/tags/Vercel/" style="font-size: 12px; color: #ccc">Vercel</a> <a href="/tags/Vue/" style="font-size: 24px; color: #4f4f4f">Vue</a> <a href="/tags/Webpack/" style="font-size: 12px; color: #ccc">Webpack</a> <a href="/tags/macOS/" style="font-size: 12px; color: #ccc">macOS</a> <a href="/tags/react/" style="font-size: 12px; color: #ccc">react</a> <a href="/tags/uni-app/" style="font-size: 12px; color: #ccc">uni-app</a> <a href="/tags/web3/" style="font-size: 30px; color: #111">web3</a> <a href="/tags/%E4%B8%AA%E4%BA%BA%E9%A1%B9%E7%9B%AE/" style="font-size: 18px; color: #8e8e8e">个人项目</a> <a href="/tags/%E5%89%8D%E7%AB%AF/" style="font-size: 30px; color: #111">前端</a> <a href="/tags/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96/" style="font-size: 12px; color: #ccc">前端优化</a> <a href="/tags/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/" style="font-size: 18px; color: #8e8e8e">前端工程化</a> <a href="/tags/%E5%89%8D%E7%AB%AF%E6%9E%B6%E6%9E%84/" style="font-size: 18px; color: #8e8e8e">前端架构</a> <a href="/tags/%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86/" style="font-size: 24px; color: #4f4f4f">后台管理</a> <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" style="font-size: 12px; color: #ccc">小程序</a> <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" style="font-size: 12px; color: #ccc">开发工具</a> <a href="/tags/%E6%8E%A5%E5%8F%A3%E5%AE%89%E5%85%A8/" style="font-size: 12px; color: #ccc">接口安全</a> <a href="/tags/%E7%99%BB%E5%BD%95%E9%89%B4%E6%9D%83/" style="font-size: 12px; color: #ccc">登录鉴权</a> <a href="/tags/%E9%92%B1%E5%8C%85/" style="font-size: 12px; color: #ccc">钱包</a> <a href="/tags/%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/" style="font-size: 12px; color: #ccc">问题排查</a>
+              
+              
+                <a href="/tags/Web3/" class="tag-pill" data-count="4">
+                  <span class="tag-pill-hash">#</span>
+                  <span class="tag-pill-name">Web3</span>
+                  <span class="tag-pill-count">4</span>
+                </a>
+              
+                <a href="/tags/Vue/" class="tag-pill" data-count="4">
+                  <span class="tag-pill-hash">#</span>
+                  <span class="tag-pill-name">Vue</span>
+                  <span class="tag-pill-count">4</span>
+                </a>
+              
+                <a href="/tags/%E5%90%8E%E5%8F%B0%E6%9E%B6%E6%9E%84/" class="tag-pill" data-count="4">
+                  <span class="tag-pill-hash">#</span>
+                  <span class="tag-pill-name">后台架构</span>
+                  <span class="tag-pill-count">4</span>
+                </a>
+              
+                <a href="/tags/%E5%AE%89%E5%85%A8%E4%B8%8E%E9%89%B4%E6%9D%83/" class="tag-pill" data-count="3">
+                  <span class="tag-pill-hash">#</span>
+                  <span class="tag-pill-name">安全与鉴权</span>
+                  <span class="tag-pill-count">3</span>
+                </a>
+              
+                <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" class="tag-pill" data-count="3">
+                  <span class="tag-pill-hash">#</span>
+                  <span class="tag-pill-name">开发工具</span>
+                  <span class="tag-pill-count">3</span>
+                </a>
+              
+                <a href="/tags/Node-js/" class="tag-pill" data-count="3">
+                  <span class="tag-pill-hash">#</span>
+                  <span class="tag-pill-name">Node.js</span>
+                  <span class="tag-pill-count">3</span>
+                </a>
+              
+                <a href="/tags/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/" class="tag-pill" data-count="3">
+                  <span class="tag-pill-hash">#</span>
+                  <span class="tag-pill-name">前端工程化</span>
+                  <span class="tag-pill-count">3</span>
+                </a>
+              
+                <a href="/tags/React/" class="tag-pill" data-count="3">
+                  <span class="tag-pill-hash">#</span>
+                  <span class="tag-pill-name">React</span>
+                  <span class="tag-pill-count">3</span>
+                </a>
+              
+                <a href="/tags/JavaScript/" class="tag-pill" data-count="3">
+                  <span class="tag-pill-hash">#</span>
+                  <span class="tag-pill-name">JavaScript</span>
+                  <span class="tag-pill-count">3</span>
+                </a>
+              
+                <a href="/tags/AI-%E5%BA%94%E7%94%A8/" class="tag-pill" data-count="3">
+                  <span class="tag-pill-hash">#</span>
+                  <span class="tag-pill-name">AI 应用</span>
+                  <span class="tag-pill-count">3</span>
+                </a>
+              
+                <a href="/tags/ERC-20/" class="tag-pill" data-count="2">
+                  <span class="tag-pill-hash">#</span>
+                  <span class="tag-pill-name">ERC-20</span>
+                  <span class="tag-pill-count">2</span>
+                </a>
+              
+                <a href="/tags/JSON-Schema/" class="tag-pill" data-count="2">
+                  <span class="tag-pill-hash">#</span>
+                  <span class="tag-pill-name">JSON Schema</span>
+                  <span class="tag-pill-count">2</span>
+                </a>
+              
+                <a href="/tags/%E5%85%A8%E6%A0%88%E9%83%A8%E7%BD%B2/" class="tag-pill" data-count="2">
+                  <span class="tag-pill-hash">#</span>
+                  <span class="tag-pill-name">全栈部署</span>
+                  <span class="tag-pill-count">2</span>
+                </a>
+              
+                <a href="/tags/Solidity/" class="tag-pill" data-count="2">
+                  <span class="tag-pill-hash">#</span>
+                  <span class="tag-pill-name">Solidity</span>
+                  <span class="tag-pill-count">2</span>
+                </a>
+              
+                <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" class="tag-pill" data-count="2">
+                  <span class="tag-pill-hash">#</span>
+                  <span class="tag-pill-name">性能优化</span>
+                  <span class="tag-pill-count">2</span>
+                </a>
+              
+                <a href="/tags/%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/" class="tag-pill" data-count="2">
+                  <span class="tag-pill-hash">#</span>
+                  <span class="tag-pill-name">问题排查</span>
+                  <span class="tag-pill-count">2</span>
+                </a>
+              
+                <a href="/tags/Next-js/" class="tag-pill" data-count="2">
+                  <span class="tag-pill-hash">#</span>
+                  <span class="tag-pill-name">Next.js</span>
+                  <span class="tag-pill-count">2</span>
+                </a>
+              
+                <a href="/tags/TypeScript/" class="tag-pill" data-count="2">
+                  <span class="tag-pill-hash">#</span>
+                  <span class="tag-pill-name">TypeScript</span>
+                  <span class="tag-pill-count">2</span>
+                </a>
+              
+                <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" class="tag-pill" data-count="1">
+                  <span class="tag-pill-hash">#</span>
+                  <span class="tag-pill-name">小程序</span>
+                  <span class="tag-pill-count">1</span>
+                </a>
+              
             </div>
           </div>
         
@@ -305,9 +439,14 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image"
-                src="/assets/img/tpc.png"
-                alt="Tpc" />
+              <picture class="site-author-picture">
+                
+                  <source srcset="/assets/img/tpc-avatar.webp" type="image/webp" />
+                
+                <img class="site-author-image" itemprop="image" width="92" height="92" decoding="async"
+                  src="/assets/img/tpc.png"
+                  alt="Tpc" />
+              </picture>
             
               <p class="site-author-name" itemprop="name">Tpc</p>
               <p class="site-description motion-element" itemprop="description">我是一条想旅游的咸鱼</p>
@@ -332,7 +471,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -343,7 +482,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -439,18 +578,6 @@
 
   
 
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
 
 
   
@@ -468,28 +595,7 @@
 
   
   
-    
-    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-  
-
-  
-  
-    <script defer type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-  
-
-  
-  
-    <script defer type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-  
-
-  
-  
-    <script defer type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script defer type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+    <script defer type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
   
 
   
@@ -505,16 +611,24 @@
 
   <script defer type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
 
-
-
-  
-  
-
-  <script defer src="/js/src/rouwan-oneko.js" data-cat="/images/rouwan-sprites.png"></script>
-
-  
   <script defer type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
-<script defer type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+  <script defer type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  <script defer src="/lib/sakuga-vfx/core.js"></script>
+  <script defer src="/js/src/sakuga-navigation.js"></script>
+
+  <script defer src="/lib/gsap/gsap.min.js"></script>
+  <script defer src="/lib/gsap/ScrollTrigger.min.js"></script>
+  <script defer src="/js/src/motion-gsap.js"></script>
+
+  
+  
 
 
 
@@ -581,8 +695,16 @@
 
   
 
-  <!-- Cloudflare Web Analytics -->
-  <script async type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "aaeb3e3cc6e347c08fbb5600fe9ee95d"}'></script>
+  <!-- Cloudflare Web Analytics (Production Only) -->
+  <script>
+    if (location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+      var cf = document.createElement('script');
+      cf.async = true;
+      cf.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+      cf.setAttribute('data-cf-beacon', '{"token": "aaeb3e3cc6e347c08fbb5600fe9ee95d"}');
+      document.body.appendChild(cf);
+    }
+  </script>
   <!-- End Cloudflare Web Analytics -->
 </body>
 </html>

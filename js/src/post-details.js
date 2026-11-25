@@ -1,99 +1,114 @@
 /* global NexT: true */
 
-$(document).ready(function () {
-
-  initScrollSpy();
-
-  function initScrollSpy () {
+(function () {
+  function initPostDetails() {
     var tocSelector = '.post-toc';
     var $tocElement = $(tocSelector);
     var activeCurrentSelector = '.active-current';
 
-    $tocElement
-      .on('activate.bs.scrollspy', function () {
-        var $currentActiveElement = $(tocSelector + ' .active').last();
+    // Clean up previous scrollspy listener before re-binding on instant navigation
+    $(window).off('scroll.bs.scrollspy');
+    $('body').removeData('bs.scrollspy');
 
-        removeCurrentActiveClass();
-        $currentActiveElement.addClass('active-current');
+    if ($tocElement.length && $tocElement.find('.nav li > a').length) {
+      $tocElement
+        .off('activate.bs.scrollspy clear.bs.scrollspy')
+        .on('activate.bs.scrollspy', function () {
+          var $currentActiveElement = $(tocSelector + ' .active').last();
+          if (!$currentActiveElement.length) return;
 
-        // Scrolling to center active TOC element if TOC content is taller then viewport.
-        $tocElement.scrollTop($currentActiveElement.offset().top - $tocElement.offset().top + $tocElement.scrollTop() - ($tocElement.height() / 2));
-      })
-      .on('clear.bs.scrollspy', removeCurrentActiveClass);
+          removeCurrentActiveClass();
+          $currentActiveElement.addClass('active-current');
 
-    $('body').scrollspy({ target: tocSelector });
+          var targetScroll =
+            $currentActiveElement.offset().top -
+            $tocElement.offset().top +
+            $tocElement.scrollTop() -
+            $tocElement.height() / 2;
+          $tocElement.scrollTop(targetScroll);
+        })
+        .on('clear.bs.scrollspy', removeCurrentActiveClass);
 
-    function removeCurrentActiveClass () {
-      $(tocSelector + ' ' + activeCurrentSelector)
-        .removeClass(activeCurrentSelector.substring(1));
-    }
-  }
-
-});
-
-$(document).ready(function () {
-  var html = $('html');
-  var TAB_ANIMATE_DURATION = 200;
-  var hasVelocity = $.isFunction(html.velocity);
-
-  $('.sidebar-nav li').on('click', function () {
-    var item = $(this);
-    var activeTabClassName = 'sidebar-nav-active';
-    var activePanelClassName = 'sidebar-panel-active';
-    if (item.hasClass(activeTabClassName)) {
-      return;
+      $('body').scrollspy({ target: tocSelector });
     }
 
-    var currentTarget = $('.' + activePanelClassName);
-    var target = $('.' + item.data('target'));
+    function removeCurrentActiveClass() {
+      $(tocSelector + ' ' + activeCurrentSelector).removeClass(activeCurrentSelector.substring(1));
+    }
 
-    hasVelocity ?
-      currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
-        target
-          .velocity('stop')
-          .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
-          .addClass(activePanelClassName);
-      }) :
-      currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
-        currentTarget.hide();
-        target
-          .stop()
-          .css({'opacity': 0, 'display': 'block'})
-          .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
-            currentTarget.removeClass(activePanelClassName);
-            target.addClass(activePanelClassName);
-          });
+    $('.sidebar-nav li')
+      .off('click.nextPostDetails')
+      .on('click.nextPostDetails', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        if (window.gsap && target[0]) {
+          var g = window.gsap;
+          g.killTweensOf([currentTarget[0], target[0]]);
+          currentTarget.removeClass(activePanelClassName).css({ display: 'none', opacity: '' });
+          target.addClass(activePanelClassName).css({ display: 'block' });
+          g.fromTo(
+            target[0],
+            { y: 8, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.2, ease: 'power2.out', clearProps: 'transform,opacity' }
+          );
+        } else {
+          currentTarget.removeClass(activePanelClassName).hide();
+          target.addClass(activePanelClassName).show();
+        }
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
       });
 
-    item.siblings().removeClass(activeTabClassName);
-    item.addClass(activeTabClassName);
-  });
+    // TOC item smooth scroll without URL hash jump
+    $('.post-toc a')
+      .off('click.nextPostDetails')
+      .on('click.nextPostDetails', function (e) {
+        e.preventDefault();
+        var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+        var $target = $(targetSelector);
+        if (!$target.length) return;
+        var offset = $target.offset().top;
 
-  // TOC item animation navigate & prevent #item selector in adress bar.
-  $('.post-toc a').on('click', function (e) {
-    e.preventDefault();
-    var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
-    var offset = $(targetSelector).offset().top;
+        if (window.gsap) {
+          var scrollProxy = { y: window.scrollY };
+          window.gsap.to(scrollProxy, {
+            y: offset,
+            duration: 0.36,
+            ease: 'power3.out',
+            onUpdate: function () {
+              window.scrollTo(0, scrollProxy.y);
+            }
+          });
+        } else {
+          window.scrollTo({ top: offset, behavior: 'smooth' });
+        }
+      });
 
-    hasVelocity ?
-      html.velocity('stop').velocity('scroll', {
-        offset: offset  + 'px',
-        mobileHA: false
-      }) :
-      $('html, body').stop().animate({
-        scrollTop: offset
-      }, 500);
-  });
-
-  // Expand sidebar on post detail page by default, when post has a toc.
-  var $tocContent = $('.post-toc-content');
-  var isSidebarCouldDisplay = CONFIG.sidebar.display === 'post' ||
-      CONFIG.sidebar.display === 'always';
-  var hasTOC = $tocContent.length > 0 && $tocContent.html().trim().length > 0;
-  if (isSidebarCouldDisplay && hasTOC) {
-    CONFIG.motion.enable ?
-      (NexT.motion.middleWares.sidebar = function () {
-          NexT.utils.displaySidebar();
-      }) : NexT.utils.displaySidebar();
+    // Expand sidebar on post detail page by default when post has a TOC
+    var $tocContent = $('.post-toc-content');
+    var isSidebarCouldDisplay = CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always';
+    var hasTOC = $tocContent.length > 0 && $tocContent.html().trim().length > 0;
+    if (isSidebarCouldDisplay && hasTOC) {
+      CONFIG.motion.enable
+        ? (NexT.motion.middleWares.sidebar = function () {
+            NexT.utils.displaySidebar();
+          })
+        : NexT.utils.displaySidebar();
+    }
   }
-});
+
+  window.NexTInitPostDetails = initPostDetails;
+
+  $(document).ready(function () {
+    initPostDetails();
+  });
+})();

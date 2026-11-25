@@ -5,6 +5,7 @@ NexT.utils = NexT.$u = {
    * Wrap images with fancybox support.
    */
   wrapImageWithFancyBox: function () {
+    if (!$.fn.fancybox) return;
     $('.content img')
       .not('[hidden]')
       .not('.group-picture img, .post-gallery img')
@@ -39,10 +40,9 @@ NexT.utils = NexT.$u = {
   },
 
   lazyLoadPostsImages: function () {
-    $('#posts').find('img').lazyload({
-      //placeholder: '/images/loading.gif',
-      effect: 'fadeIn',
-      threshold : 0
+    document.querySelectorAll('#posts img').forEach(function (img) {
+      if (!img.getAttribute('loading')) img.setAttribute('loading', 'lazy');
+      if (!img.getAttribute('decoding')) img.setAttribute('decoding', 'async');
     });
   },
 
@@ -97,20 +97,44 @@ NexT.utils = NexT.$u = {
   registerBackToTop: function () {
     var THRESHOLD = 50;
     var $top = $('.back-to-top');
+    var $scrollPercent = $('#scrollpercent>span');
+    var ticking = false;
+    var isVisible = false;
 
-    $(window).on('scroll', function () {
-      $top.toggleClass('back-to-top-on', window.pageYOffset > THRESHOLD);
-
-      var scrollTop = $(window).scrollTop();
-      var contentVisibilityHeight = NexT.utils.getContentVisibilityHeight();
-      var scrollPercent = (scrollTop) / (contentVisibilityHeight);
-      var scrollPercentRounded = Math.round(scrollPercent*100);
-      var scrollPercentMaxed = (scrollPercentRounded > 100) ? 100 : scrollPercentRounded;
-      $('#scrollpercent>span').html(scrollPercentMaxed);
-    });
+    window.addEventListener('scroll', function () {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(function () {
+        ticking = false;
+        var y = window.pageYOffset || window.scrollY || 0;
+        var nextVisible = y > THRESHOLD;
+        if (nextVisible !== isVisible) {
+          isVisible = nextVisible;
+          $top.toggleClass('back-to-top-on', nextVisible);
+        }
+        if ($scrollPercent.length) {
+          var contentVisibilityHeight = NexT.utils.getContentVisibilityHeight();
+          var scrollPercent = contentVisibilityHeight > 0 ? y / contentVisibilityHeight : 0;
+          var scrollPercentRounded = Math.min(100, Math.round(scrollPercent * 100));
+          $scrollPercent.text(scrollPercentRounded);
+        }
+      });
+    }, { passive: true });
 
     $top.on('click', function () {
-      $('body').velocity('scroll');
+      if (window.gsap) {
+        var scrollProxy = { y: window.scrollY };
+        window.gsap.to(scrollProxy, {
+          y: 0,
+          duration: 0.44,
+          ease: 'power3.out',
+          onUpdate: function () {
+            window.scrollTo(0, scrollProxy.y);
+          }
+        });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     });
   },
 
@@ -235,7 +259,13 @@ NexT.utils = NexT.$u = {
   },
 
   displaySidebar: function () {
-    if (!this.isDesktop() || this.isPisces() || this.isGemini()) {
+    if (!this.isDesktop() || window.innerWidth < 992 || this.isPisces() || this.isGemini()) {
+      return;
+    }
+    try {
+      if (sessionStorage.getItem('tpc-sidebar-closed') === '1') return;
+    } catch (e) {}
+    if ($('.sidebar').hasClass('sidebar-active') || document.documentElement.classList.contains('sidebar-preopen')) {
       return;
     }
     $('.sidebar-toggle').trigger('click');
@@ -318,17 +348,20 @@ $(document).ready(function () {
       }, 0);
     });
 
-    // Initialize Sidebar & TOC Width.
-    var scrollbarWidth = NexT.utils.getScrollbarWidth();
-      if ($('.site-overview-wrap').height() > (document.body.clientHeight - NexT.utils.getSidebarSchemePadding())) {
+    function applySidebarDimensions() {
+      var scrollbarWidth = NexT.utils.getScrollbarWidth();
+      var availableHeight = window.innerHeight - NexT.utils.getSidebarSchemePadding();
+      if ($('.site-overview-wrap').height() > availableHeight) {
         $('.site-overview').css('width', 'calc(100% + ' + scrollbarWidth + 'px)');
       }
-      if ($('.post-toc-wrap').height() > (document.body.clientHeight - NexT.utils.getSidebarSchemePadding())) {
+      if ($('.post-toc-wrap').height() > availableHeight) {
         $('.post-toc').css('width', 'calc(100% + ' + scrollbarWidth + 'px)');
       }
+      updateSidebarHeight(availableHeight);
+    }
 
-    // Initialize Sidebar & TOC Height.
-    updateSidebarHeight(document.body.clientHeight - NexT.utils.getSidebarSchemePadding());
+    NexT.utils.refreshSidebarDimension = applySidebarDimensions;
+    applySidebarDimensions();
   }
 
   function updateSidebarHeight (height) {

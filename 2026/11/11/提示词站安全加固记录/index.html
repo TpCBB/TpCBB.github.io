@@ -7,7 +7,7 @@
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
 <meta name="theme-color" content="#222">
 
 
@@ -38,7 +38,8 @@
 
   
   
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+  <link rel="preload" href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" /></noscript>
 
 
 
@@ -46,8 +47,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0-swap" rel="stylesheet" type="text/css" />
 <link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+<link rel="preload" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0-swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+<noscript><link href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0-swap" rel="stylesheet" type="text/css" /></noscript>
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon-tpc.png?v=5.1.4">
@@ -63,7 +65,7 @@
 
 
 
-  <meta name="keywords" content="前端,Next.js,Supabase,接口安全,Vercel,Cloudflare,R2," />
+  <meta name="keywords" content="安全与鉴权,全栈部署,AI 应用,Next.js," />
 
 
 
@@ -81,15 +83,12 @@
 <meta property="og:site_name" content="Tpc">
 <meta property="og:description" content="把图片从 R2 迁到 Workers Static Assets，再收紧数据库匿名读取和接口限流，记录一次费用与安全调整">
 <meta property="article:published_time" content="2026-11-10T16:24:15.000Z">
-<meta property="article:modified_time" content="2026-11-11T03:24:10.964Z">
+<meta property="article:modified_time" content="2026-11-24T05:31:16.829Z">
 <meta property="article:author" content="Tpc">
-<meta property="article:tag" content="前端">
+<meta property="article:tag" content="安全与鉴权">
+<meta property="article:tag" content="全栈部署">
+<meta property="article:tag" content="AI 应用">
 <meta property="article:tag" content="Next.js">
-<meta property="article:tag" content="Supabase">
-<meta property="article:tag" content="接口安全">
-<meta property="article:tag" content="Vercel">
-<meta property="article:tag" content="Cloudflare">
-<meta property="article:tag" content="R2">
 <meta name="twitter:card" content="summary">
 
 
@@ -135,6 +134,21 @@
 
 
 
+  <script>
+    (function () {
+      try {
+        if (
+          window.CONFIG &&
+          CONFIG.sidebar &&
+          CONFIG.sidebar.display === 'always' &&
+          window.innerWidth >= 992 &&
+          sessionStorage.getItem('tpc-sidebar-closed') !== '1'
+        ) {
+          document.documentElement.classList.add('sidebar-preopen');
+        }
+      } catch (e) {}
+    })();
+  </script>
 <meta name="generator" content="Hexo 4.2.1"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -165,7 +179,7 @@
   </div>
 
   <div class="site-nav-toggle">
-    <button>
+    <button type="button" aria-label="站点导航" aria-controls="site-nav" aria-expanded="false">
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
@@ -173,15 +187,17 @@
   </div>
 </div>
 
-<nav class="site-nav">
+<nav id="site-nav" class="site-nav" aria-label="站点导航">
   
 
   
-    <ul id="menu" class="menu">
+    
+    
+    <ul id="menu" class="menu sakuga-nav">
       
         
         <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
+          <a href="/" rel="section" aria-current="location">
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
@@ -304,8 +320,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/tech/" itemprop="url" rel="index">
-                    <span itemprop="name">tech</span>
+                  <a href="/categories/%E5%B7%A5%E7%A8%8B%E5%8C%96%E4%B8%8E%E6%80%A7%E8%83%BD/" data-cat="工程化与性能" itemprop="url" rel="index">
+                    <span itemprop="name">工程化与性能</span>
                   </a>
                 </span>
 
@@ -452,19 +468,13 @@
       
         <div class="post-tags">
           
-            <a href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag"># 前端</a>
+            <a href="/tags/%E5%AE%89%E5%85%A8%E4%B8%8E%E9%89%B4%E6%9D%83/" rel="tag"># 安全与鉴权</a>
+          
+            <a href="/tags/%E5%85%A8%E6%A0%88%E9%83%A8%E7%BD%B2/" rel="tag"># 全栈部署</a>
+          
+            <a href="/tags/AI-%E5%BA%94%E7%94%A8/" rel="tag"># AI 应用</a>
           
             <a href="/tags/Next-js/" rel="tag"># Next.js</a>
-          
-            <a href="/tags/Supabase/" rel="tag"># Supabase</a>
-          
-            <a href="/tags/%E6%8E%A5%E5%8F%A3%E5%AE%89%E5%85%A8/" rel="tag"># 接口安全</a>
-          
-            <a href="/tags/Vercel/" rel="tag"># Vercel</a>
-          
-            <a href="/tags/Cloudflare/" rel="tag"># Cloudflare</a>
-          
-            <a href="/tags/R2/" rel="tag"># R2</a>
           
         </div>
       
@@ -555,9 +565,14 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image"
-                src="/assets/img/tpc.png"
-                alt="Tpc" />
+              <picture class="site-author-picture">
+                
+                  <source srcset="/assets/img/tpc-avatar.webp" type="image/webp" />
+                
+                <img class="site-author-image" itemprop="image" width="92" height="92" decoding="async"
+                  src="/assets/img/tpc.png"
+                  alt="Tpc" />
+              </picture>
             
               <p class="site-author-name" itemprop="name">Tpc</p>
               <p class="site-description motion-element" itemprop="description">我是一条想旅游的咸鱼</p>
@@ -582,7 +597,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -593,7 +608,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -636,7 +651,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#先分清楚公开了什么"><span class="nav-number">1.</span> <span class="nav-text">先分清楚公开了什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图片从-r2-迁到了-workers-static-assets"><span class="nav-number">2.</span> <span class="nav-text">图片从 R2 迁到了 Workers Static Assets</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#页面有-api-数据库也要收权限"><span class="nav-number">3.</span> <span class="nav-text">页面有 API，数据库也要收权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#限流要能跨实例计数"><span class="nav-number">4.</span> <span class="nav-text">限流要能跨实例计数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#上线顺序得安排好"><span class="nav-number">5.</span> <span class="nav-text">上线顺序得安排好</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#验证时-我刻意避开了缓存"><span class="nav-number">6.</span> <span class="nav-text">验证时，我刻意避开了缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">7.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#先分清楚公开了什么"><span class="nav-text">先分清楚公开了什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图片从-r2-迁到了-workers-static-assets"><span class="nav-text">图片从 R2 迁到了 Workers Static Assets</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#页面有-api-数据库也要收权限"><span class="nav-text">页面有 API，数据库也要收权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#限流要能跨实例计数"><span class="nav-text">限流要能跨实例计数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#上线顺序得安排好"><span class="nav-text">上线顺序得安排好</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#验证时-我刻意避开了缓存"><span class="nav-text">验证时，我刻意避开了缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
@@ -705,18 +720,6 @@
 
   
 
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
 
 
   
@@ -734,28 +737,7 @@
 
   
   
-    
-    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-  
-
-  
-  
-    <script defer type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-  
-
-  
-  
-    <script defer type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-  
-
-  
-  
-    <script defer type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script defer type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+    <script defer type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
   
 
   
@@ -771,16 +753,24 @@
 
   <script defer type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
 
-
-
-  
-  
-
-  <script defer src="/js/src/rouwan-oneko.js" data-cat="/images/rouwan-sprites.png"></script>
-
-  
   <script defer type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
-<script defer type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+  <script defer type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  <script defer src="/lib/sakuga-vfx/core.js"></script>
+  <script defer src="/js/src/sakuga-navigation.js"></script>
+
+  <script defer src="/lib/gsap/gsap.min.js"></script>
+  <script defer src="/lib/gsap/ScrollTrigger.min.js"></script>
+  <script defer src="/js/src/motion-gsap.js"></script>
+
+  
+  
 
 
 
@@ -847,8 +837,16 @@
 
   
 
-  <!-- Cloudflare Web Analytics -->
-  <script async type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "aaeb3e3cc6e347c08fbb5600fe9ee95d"}'></script>
+  <!-- Cloudflare Web Analytics (Production Only) -->
+  <script>
+    if (location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+      var cf = document.createElement('script');
+      cf.async = true;
+      cf.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+      cf.setAttribute('data-cf-beacon', '{"token": "aaeb3e3cc6e347c08fbb5600fe9ee95d"}');
+      document.body.appendChild(cf);
+    }
+  </script>
   <!-- End Cloudflare Web Analytics -->
 </body>
 </html>

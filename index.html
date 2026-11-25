@@ -7,7 +7,7 @@
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
 <meta name="theme-color" content="#222">
 
 
@@ -38,7 +38,8 @@
 
   
   
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+  <link rel="preload" href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" /></noscript>
 
 
 
@@ -46,8 +47,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0-swap" rel="stylesheet" type="text/css" />
 <link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+<link rel="preload" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0-swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+<noscript><link href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0-swap" rel="stylesheet" type="text/css" /></noscript>
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon-tpc.png?v=5.1.4">
@@ -127,6 +129,21 @@
 
 
 
+  <script>
+    (function () {
+      try {
+        if (
+          window.CONFIG &&
+          CONFIG.sidebar &&
+          CONFIG.sidebar.display === 'always' &&
+          window.innerWidth >= 992 &&
+          sessionStorage.getItem('tpc-sidebar-closed') !== '1'
+        ) {
+          document.documentElement.classList.add('sidebar-preopen');
+        }
+      } catch (e) {}
+    })();
+  </script>
 <meta name="generator" content="Hexo 4.2.1"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -158,7 +175,7 @@
   </div>
 
   <div class="site-nav-toggle">
-    <button>
+    <button type="button" aria-label="站点导航" aria-controls="site-nav" aria-expanded="false">
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
@@ -166,15 +183,17 @@
   </div>
 </div>
 
-<nav class="site-nav">
+<nav id="site-nav" class="site-nav" aria-label="站点导航">
   
 
   
-    <ul id="menu" class="menu">
+    
+    
+    <ul id="menu" class="menu sakuga-nav">
       
         
         <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
+          <a href="/" rel="section" aria-current="location">
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
@@ -299,8 +318,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/tech/" itemprop="url" rel="index">
-                    <span itemprop="name">tech</span>
+                  <a href="/categories/AI-%E4%B8%8E%E5%B7%A5%E5%85%B7/" data-cat="AI 与工具" itemprop="url" rel="index">
+                    <span itemprop="name">AI 与工具</span>
                   </a>
                 </span>
 
@@ -337,14 +356,8 @@
 
       
         
-          记录如何指挥 AI 帮我把一个 171 题的前端面试练习工具工程化落地。重点拆解：在严苛的 JSON 结构下，如何手搓流式 SSE 增量解析、未闭合转义容错以及字素级打字机效果。
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2026/11/17/%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E6%9C%AC%E5%9C%B0AI%E9%9D%A2%E8%AF%95%E7%BB%83%E4%B9%A0%E5%B7%A5%E5%85%B7/">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          <div class="post-excerpt">记录如何指挥 AI 帮我把一个 171 题的前端面试练习工具工程化落地。重点拆解：在严苛的 JSON 结构下，如何手搓流式 SSE 增量解析、未闭合转义容错以及字素级打字机效果。</div>
+          
         
       
     </div>
@@ -358,7 +371,31 @@
 
     
 
-    <footer class="post-footer">
+    <footer class="post-footer post-card-footer">
+      
+        <div class="post-tags">
+          
+            
+              <a href="/tags/React/" rel="tag"># React</a>
+            
+              <a href="/tags/AI-%E5%BA%94%E7%94%A8/" rel="tag"># AI 应用</a>
+            
+              <a href="/tags/Next-js/" rel="tag"># Next.js</a>
+            
+              <a href="/tags/TypeScript/" rel="tag"># TypeScript</a>
+            
+          
+        </div>
+        
+          <!--noindex-->
+          <div class="post-button">
+            <a class="btn" href="/2026/11/17/%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E6%9C%AC%E5%9C%B0AI%E9%9D%A2%E8%AF%95%E7%BB%83%E4%B9%A0%E5%B7%A5%E5%85%B7/" rel="contents">
+              <span>阅读全文</span>
+              <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
+          <!--/noindex-->
+        
       
 
       
@@ -445,8 +482,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/tech/" itemprop="url" rel="index">
-                    <span itemprop="name">tech</span>
+                  <a href="/categories/AI-%E4%B8%8E%E5%B7%A5%E5%85%B7/" data-cat="AI 与工具" itemprop="url" rel="index">
+                    <span itemprop="name">AI 与工具</span>
                   </a>
                 </span>
 
@@ -483,14 +520,8 @@
 
       
         
-          AI 同时跑了几个项目，端口也跟着越来越乱。干脆让 AI 帮我做了个端口管家，记录一下从提需求、改功能到发布的过程。
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2026/11/15/%E7%94%A8AI%E5%81%9A%E4%BA%86%E4%B8%AA%E7%AB%AF%E5%8F%A3%E7%AE%A1%E5%AE%B6/">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          <div class="post-excerpt">AI 同时跑了几个项目，端口也跟着越来越乱。干脆让 AI 帮我做了个端口管家，记录一下从提需求、改功能到发布的过程。</div>
+          
         
       
     </div>
@@ -504,7 +535,27 @@
 
     
 
-    <footer class="post-footer">
+    <footer class="post-footer post-card-footer">
+      
+        <div class="post-tags">
+          
+            
+              <a href="/tags/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/" rel="tag"># 开发工具</a>
+            
+              <a href="/tags/AI-%E5%BA%94%E7%94%A8/" rel="tag"># AI 应用</a>
+            
+          
+        </div>
+        
+          <!--noindex-->
+          <div class="post-button">
+            <a class="btn" href="/2026/11/15/%E7%94%A8AI%E5%81%9A%E4%BA%86%E4%B8%AA%E7%AB%AF%E5%8F%A3%E7%AE%A1%E5%AE%B6/" rel="contents">
+              <span>阅读全文</span>
+              <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
+          <!--/noindex-->
+        
       
 
       
@@ -591,8 +642,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/tech/" itemprop="url" rel="index">
-                    <span itemprop="name">tech</span>
+                  <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AE%9E%E6%88%98/" data-cat="前端实战" itemprop="url" rel="index">
+                    <span itemprop="name">前端实战</span>
                   </a>
                 </span>
 
@@ -629,14 +680,8 @@
 
       
         
-          提示词列表明明只在数组末尾追加数据，旧卡片却跟着移动。记录一次 CSS 多列布局导致的分页重排，以及按批次追加的修复。
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2026/11/12/%E5%8A%A0%E8%BD%BD%E6%9B%B4%E5%A4%9A%E5%AF%BC%E8%87%B4%E7%80%91%E5%B8%83%E6%B5%81%E5%8D%A1%E7%89%87%E9%87%8D%E6%8E%92/">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          <div class="post-excerpt">提示词列表明明只在数组末尾追加数据，旧卡片却跟着移动。记录一次 CSS 多列布局导致的分页重排，以及按批次追加的修复。</div>
+          
         
       
     </div>
@@ -650,7 +695,27 @@
 
     
 
-    <footer class="post-footer">
+    <footer class="post-footer post-card-footer">
+      
+        <div class="post-tags">
+          
+            
+              <a href="/tags/React/" rel="tag"># React</a>
+            
+              <a href="/tags/%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/" rel="tag"># 问题排查</a>
+            
+          
+        </div>
+        
+          <!--noindex-->
+          <div class="post-button">
+            <a class="btn" href="/2026/11/12/%E5%8A%A0%E8%BD%BD%E6%9B%B4%E5%A4%9A%E5%AF%BC%E8%87%B4%E7%80%91%E5%B8%83%E6%B5%81%E5%8D%A1%E7%89%87%E9%87%8D%E6%8E%92/" rel="contents">
+              <span>阅读全文</span>
+              <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
+          <!--/noindex-->
+        
       
 
       
@@ -737,8 +802,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/tech/" itemprop="url" rel="index">
-                    <span itemprop="name">tech</span>
+                  <a href="/categories/%E5%B7%A5%E7%A8%8B%E5%8C%96%E4%B8%8E%E6%80%A7%E8%83%BD/" data-cat="工程化与性能" itemprop="url" rel="index">
+                    <span itemprop="name">工程化与性能</span>
                   </a>
                 </span>
 
@@ -775,14 +840,8 @@
 
       
         
-          把图片从 R2 迁到 Workers Static Assets，再收紧数据库匿名读取和接口限流，记录一次费用与安全调整
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2026/11/11/%E6%8F%90%E7%A4%BA%E8%AF%8D%E7%AB%99%E5%AE%89%E5%85%A8%E5%8A%A0%E5%9B%BA%E8%AE%B0%E5%BD%95/">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          <div class="post-excerpt">把图片从 R2 迁到 Workers Static Assets，再收紧数据库匿名读取和接口限流，记录一次费用与安全调整</div>
+          
         
       
     </div>
@@ -796,7 +855,31 @@
 
     
 
-    <footer class="post-footer">
+    <footer class="post-footer post-card-footer">
+      
+        <div class="post-tags">
+          
+            
+              <a href="/tags/%E5%AE%89%E5%85%A8%E4%B8%8E%E9%89%B4%E6%9D%83/" rel="tag"># 安全与鉴权</a>
+            
+              <a href="/tags/%E5%85%A8%E6%A0%88%E9%83%A8%E7%BD%B2/" rel="tag"># 全栈部署</a>
+            
+              <a href="/tags/AI-%E5%BA%94%E7%94%A8/" rel="tag"># AI 应用</a>
+            
+              <a href="/tags/Next-js/" rel="tag"># Next.js</a>
+            
+          
+        </div>
+        
+          <!--noindex-->
+          <div class="post-button">
+            <a class="btn" href="/2026/11/11/%E6%8F%90%E7%A4%BA%E8%AF%8D%E7%AB%99%E5%AE%89%E5%85%A8%E5%8A%A0%E5%9B%BA%E8%AE%B0%E5%BD%95/" rel="contents">
+              <span>阅读全文</span>
+              <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
+          <!--/noindex-->
+        
       
 
       
@@ -883,8 +966,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/tech/" itemprop="url" rel="index">
-                    <span itemprop="name">tech</span>
+                  <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AE%9E%E6%88%98/" data-cat="前端实战" itemprop="url" rel="index">
+                    <span itemprop="name">前端实战</span>
                   </a>
                 </span>
 
@@ -921,14 +1004,8 @@
 
       
         
-          记录一次登录回跳时遇到的参数丢失和重定向问题
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2026/10/25/%E7%99%BB%E5%BD%95%E5%9B%9E%E8%B7%B3%E4%B8%AD%E7%9A%84callback%E5%8F%82%E6%95%B0/">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          <div class="post-excerpt">记录一次登录回跳时遇到的参数丢失和重定向问题</div>
+          
         
       
     </div>
@@ -942,7 +1019,29 @@
 
     
 
-    <footer class="post-footer">
+    <footer class="post-footer post-card-footer">
+      
+        <div class="post-tags">
+          
+            
+              <a href="/tags/%E5%AE%89%E5%85%A8%E4%B8%8E%E9%89%B4%E6%9D%83/" rel="tag"># 安全与鉴权</a>
+            
+              <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+            
+              <a href="/tags/%E9%97%AE%E9%A2%98%E6%8E%92%E6%9F%A5/" rel="tag"># 问题排查</a>
+            
+          
+        </div>
+        
+          <!--noindex-->
+          <div class="post-button">
+            <a class="btn" href="/2026/10/25/%E7%99%BB%E5%BD%95%E5%9B%9E%E8%B7%B3%E4%B8%AD%E7%9A%84callback%E5%8F%82%E6%95%B0/" rel="contents">
+              <span>阅读全文</span>
+              <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
+          <!--/noindex-->
+        
       
 
       
@@ -1029,8 +1128,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/tech/" itemprop="url" rel="index">
-                    <span itemprop="name">tech</span>
+                  <a href="/categories/%E5%89%8D%E7%AB%AF%E6%9E%B6%E6%9E%84/" data-cat="前端架构" itemprop="url" rel="index">
+                    <span itemprop="name">前端架构</span>
                   </a>
                 </span>
 
@@ -1067,14 +1166,8 @@
 
       
         
-          记录后台表单、表格和搜索条件的配置化思路
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2026/09/30/Schema%E9%A9%B1%E5%8A%A8%E5%90%8E%E5%8F%B0%E9%A1%B5%E9%9D%A2%E7%9A%84%E6%80%9D%E8%B7%AF/">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          <div class="post-excerpt">记录后台表单、表格和搜索条件的配置化思路</div>
+          
         
       
     </div>
@@ -1088,7 +1181,29 @@
 
     
 
-    <footer class="post-footer">
+    <footer class="post-footer post-card-footer">
+      
+        <div class="post-tags">
+          
+            
+              <a href="/tags/JSON-Schema/" rel="tag"># JSON Schema</a>
+            
+              <a href="/tags/Vue/" rel="tag"># Vue</a>
+            
+              <a href="/tags/%E5%90%8E%E5%8F%B0%E6%9E%B6%E6%9E%84/" rel="tag"># 后台架构</a>
+            
+          
+        </div>
+        
+          <!--noindex-->
+          <div class="post-button">
+            <a class="btn" href="/2026/09/30/Schema%E9%A9%B1%E5%8A%A8%E5%90%8E%E5%8F%B0%E9%A1%B5%E9%9D%A2%E7%9A%84%E6%80%9D%E8%B7%AF/" rel="contents">
+              <span>阅读全文</span>
+              <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
+          <!--/noindex-->
+        
       
 
       
@@ -1175,8 +1290,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/web3/" itemprop="url" rel="index">
-                    <span itemprop="name">web3</span>
+                  <a href="/categories/Web3-%E5%BC%80%E5%8F%91/" data-cat="Web3 开发" itemprop="url" rel="index">
+                    <span itemprop="name">Web3 开发</span>
                   </a>
                 </span>
 
@@ -1213,14 +1328,8 @@
 
       
         
-          记录 ERC-20 授权查询、批量读取和撤销授权
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2026/08/13/ERC20%E6%8E%88%E6%9D%83%E6%9F%A5%E8%AF%A2%E4%B8%8E%E6%92%A4%E9%94%80/">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          <div class="post-excerpt">记录 ERC-20 授权查询、批量读取和撤销授权</div>
+          
         
       
     </div>
@@ -1234,7 +1343,29 @@
 
     
 
-    <footer class="post-footer">
+    <footer class="post-footer post-card-footer">
+      
+        <div class="post-tags">
+          
+            
+              <a href="/tags/Web3/" rel="tag"># Web3</a>
+            
+              <a href="/tags/ERC-20/" rel="tag"># ERC-20</a>
+            
+              <a href="/tags/%E5%AE%89%E5%85%A8%E4%B8%8E%E9%89%B4%E6%9D%83/" rel="tag"># 安全与鉴权</a>
+            
+          
+        </div>
+        
+          <!--noindex-->
+          <div class="post-button">
+            <a class="btn" href="/2026/08/13/ERC20%E6%8E%88%E6%9D%83%E6%9F%A5%E8%AF%A2%E4%B8%8E%E6%92%A4%E9%94%80/" rel="contents">
+              <span>阅读全文</span>
+              <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
+          <!--/noindex-->
+        
       
 
       
@@ -1321,8 +1452,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/tech/" itemprop="url" rel="index">
-                    <span itemprop="name">tech</span>
+                  <a href="/categories/%E5%B7%A5%E7%A8%8B%E5%8C%96%E4%B8%8E%E6%80%A7%E8%83%BD/" data-cat="工程化与性能" itemprop="url" rel="index">
+                    <span itemprop="name">工程化与性能</span>
                   </a>
                 </span>
 
@@ -1359,14 +1490,8 @@
 
       
         
-          小程序主包体积分析和业务分包的记录
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2026/01/15/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E4%B8%BB%E5%8C%85%E5%88%86%E5%8C%85%E4%BC%98%E5%8C%96%E8%AE%B0%E5%BD%95/">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          <div class="post-excerpt">小程序主包体积分析和业务分包的记录</div>
+          
         
       
     </div>
@@ -1380,7 +1505,29 @@
 
     
 
-    <footer class="post-footer">
+    <footer class="post-footer post-card-footer">
+      
+        <div class="post-tags">
+          
+            
+              <a href="/tags/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/" rel="tag"># 前端工程化</a>
+            
+              <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag"># 性能优化</a>
+            
+              <a href="/tags/%E5%B0%8F%E7%A8%8B%E5%BA%8F/" rel="tag"># 小程序</a>
+            
+          
+        </div>
+        
+          <!--noindex-->
+          <div class="post-button">
+            <a class="btn" href="/2026/01/15/%E5%B0%8F%E7%A8%8B%E5%BA%8F%E4%B8%BB%E5%8C%85%E5%88%86%E5%8C%85%E4%BC%98%E5%8C%96%E8%AE%B0%E5%BD%95/" rel="contents">
+              <span>阅读全文</span>
+              <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
+          <!--/noindex-->
+        
       
 
       
@@ -1467,8 +1614,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/tech/" itemprop="url" rel="index">
-                    <span itemprop="name">tech</span>
+                  <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AE%9E%E6%88%98/" data-cat="前端实战" itemprop="url" rel="index">
+                    <span itemprop="name">前端实战</span>
                   </a>
                 </span>
 
@@ -1505,14 +1652,8 @@
 
       
         
-          vue3技巧
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2025/11/12/vue3%E6%8A%80%E5%B7%A7/">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          <div class="post-excerpt">整理 Vue 3 开发中的高频工程技巧：基于 Vite 的组件自动按需注册与图片懒加载自定义指令封装。</div>
+          
         
       
     </div>
@@ -1526,7 +1667,29 @@
 
     
 
-    <footer class="post-footer">
+    <footer class="post-footer post-card-footer">
+      
+        <div class="post-tags">
+          
+            
+              <a href="/tags/Vue/" rel="tag"># Vue</a>
+            
+              <a href="/tags/%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%8C%96/" rel="tag"># 前端工程化</a>
+            
+              <a href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/" rel="tag"># 性能优化</a>
+            
+          
+        </div>
+        
+          <!--noindex-->
+          <div class="post-button">
+            <a class="btn" href="/2025/11/12/vue3%E6%8A%80%E5%B7%A7/" rel="contents">
+              <span>阅读全文</span>
+              <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
+          <!--/noindex-->
+        
       
 
       
@@ -1613,8 +1776,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/web3/" itemprop="url" rel="index">
-                    <span itemprop="name">web3</span>
+                  <a href="/categories/Web3-%E5%BC%80%E5%8F%91/" data-cat="Web3 开发" itemprop="url" rel="index">
+                    <span itemprop="name">Web3 开发</span>
                   </a>
                 </span>
 
@@ -1651,14 +1814,8 @@
 
       
         
-          token配置
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2025/09/18/token%E9%85%8D%E7%BD%AE/">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+          <div class="post-excerpt">梳理 ERC-20 代币标准的核心接口、事件定义及 Solidity 合约实现要点。</div>
+          
         
       
     </div>
@@ -1672,7 +1829,29 @@
 
     
 
-    <footer class="post-footer">
+    <footer class="post-footer post-card-footer">
+      
+        <div class="post-tags">
+          
+            
+              <a href="/tags/Web3/" rel="tag"># Web3</a>
+            
+              <a href="/tags/ERC-20/" rel="tag"># ERC-20</a>
+            
+              <a href="/tags/Solidity/" rel="tag"># Solidity</a>
+            
+          
+        </div>
+        
+          <!--noindex-->
+          <div class="post-button">
+            <a class="btn" href="/2025/09/18/token%E9%85%8D%E7%BD%AE/" rel="contents">
+              <span>阅读全文</span>
+              <span class="btn-arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
+          <!--/noindex-->
+        
       
 
       
@@ -1731,9 +1910,14 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image"
-                src="/assets/img/tpc.png"
-                alt="Tpc" />
+              <picture class="site-author-picture">
+                
+                  <source srcset="/assets/img/tpc-avatar.webp" type="image/webp" />
+                
+                <img class="site-author-image" itemprop="image" width="92" height="92" decoding="async"
+                  src="/assets/img/tpc.png"
+                  alt="Tpc" />
+              </picture>
             
               <p class="site-author-name" itemprop="name">Tpc</p>
               <p class="site-description motion-element" itemprop="description">我是一条想旅游的咸鱼</p>
@@ -1758,7 +1942,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -1769,7 +1953,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -1865,18 +2049,6 @@
 
   
 
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
 
 
   
@@ -1894,28 +2066,7 @@
 
   
   
-    
-    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-  
-
-  
-  
-    <script defer type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-  
-
-  
-  
-    <script defer type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-  
-
-  
-  
-    <script defer type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script defer type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+    <script defer type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
   
 
   
@@ -1931,12 +2082,21 @@
 
   <script defer type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
 
+  <script defer type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+
+  <script defer type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
 
 
   
   
 
-  <script defer src="/js/src/rouwan-oneko.js" data-cat="/images/rouwan-sprites.png"></script>
+  <script defer src="/lib/sakuga-vfx/core.js"></script>
+  <script defer src="/js/src/sakuga-navigation.js"></script>
+
+  <script defer src="/lib/gsap/gsap.min.js"></script>
+  <script defer src="/lib/gsap/ScrollTrigger.min.js"></script>
+  <script defer src="/js/src/motion-gsap.js"></script>
 
   
 
@@ -2003,8 +2163,16 @@
 
   
 
-  <!-- Cloudflare Web Analytics -->
-  <script async type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "aaeb3e3cc6e347c08fbb5600fe9ee95d"}'></script>
+  <!-- Cloudflare Web Analytics (Production Only) -->
+  <script>
+    if (location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+      var cf = document.createElement('script');
+      cf.async = true;
+      cf.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+      cf.setAttribute('data-cf-beacon', '{"token": "aaeb3e3cc6e347c08fbb5600fe9ee95d"}');
+      document.body.appendChild(cf);
+    }
+  </script>
   <!-- End Cloudflare Web Analytics -->
 </body>
 </html>

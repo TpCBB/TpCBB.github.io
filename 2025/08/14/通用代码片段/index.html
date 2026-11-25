@@ -7,7 +7,7 @@
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
 <meta name="theme-color" content="#222">
 
 
@@ -38,7 +38,8 @@
 
   
   
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+  <link rel="preload" href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" /></noscript>
 
 
 
@@ -46,8 +47,9 @@
 
 
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0-swap" rel="stylesheet" type="text/css" />
 <link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+<link rel="preload" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0-swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+<noscript><link href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0-swap" rel="stylesheet" type="text/css" /></noscript>
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon-tpc.png?v=5.1.4">
@@ -63,7 +65,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, Tpc" />
+  <meta name="keywords" content="JavaScript,TypeScript," />
 
 
 
@@ -74,16 +76,17 @@
 
 
 
-<meta name="description" content="通用代码段">
+<meta name="description" content="汇总日常开发中高频复用的 JavaScript 与 TypeScript 工具函数片段。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="通用代码段">
 <meta property="og:url" content="https://tpc28yo.xyz/2025/08/14/%E9%80%9A%E7%94%A8%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/index.html">
 <meta property="og:site_name" content="Tpc">
-<meta property="og:description" content="通用代码段">
+<meta property="og:description" content="汇总日常开发中高频复用的 JavaScript 与 TypeScript 工具函数片段。">
 <meta property="article:published_time" content="2025-08-13T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-05-18T08:55:06.488Z">
+<meta property="article:modified_time" content="2026-11-24T05:32:51.587Z">
 <meta property="article:author" content="Tpc">
-<meta property="article:tag" content="cys">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="TypeScript">
 <meta name="twitter:card" content="summary">
 
 
@@ -129,6 +132,21 @@
 
 
 
+  <script>
+    (function () {
+      try {
+        if (
+          window.CONFIG &&
+          CONFIG.sidebar &&
+          CONFIG.sidebar.display === 'always' &&
+          window.innerWidth >= 992 &&
+          sessionStorage.getItem('tpc-sidebar-closed') !== '1'
+        ) {
+          document.documentElement.classList.add('sidebar-preopen');
+        }
+      } catch (e) {}
+    })();
+  </script>
 <meta name="generator" content="Hexo 4.2.1"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -159,7 +177,7 @@
   </div>
 
   <div class="site-nav-toggle">
-    <button>
+    <button type="button" aria-label="站点导航" aria-controls="site-nav" aria-expanded="false">
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
       <span class="btn-bar"></span>
@@ -167,15 +185,17 @@
   </div>
 </div>
 
-<nav class="site-nav">
+<nav id="site-nav" class="site-nav" aria-label="站点导航">
   
 
   
-    <ul id="menu" class="menu">
+    
+    
+    <ul id="menu" class="menu sakuga-nav">
       
         
         <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
+          <a href="/" rel="section" aria-current="location">
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
@@ -298,8 +318,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/tech/" itemprop="url" rel="index">
-                    <span itemprop="name">tech</span>
+                  <a href="/categories/%E5%89%8D%E7%AB%AF%E5%AE%9E%E6%88%98/" data-cat="前端实战" itemprop="url" rel="index">
+                    <span itemprop="name">前端实战</span>
                   </a>
                 </span>
 
@@ -322,7 +342,7 @@
 
           
               <div class="post-description">
-                  通用代码段
+                  汇总日常开发中高频复用的 JavaScript 与 TypeScript 工具函数片段。
               </div>
           
 
@@ -501,6 +521,14 @@
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+            <a href="/tags/TypeScript/" rel="tag"># TypeScript</a>
+          
+        </div>
+      
 
       
       
@@ -520,8 +548,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2025/09/18/dex%20solidity%E9%85%8D%E7%BD%AE/" rel="prev" title="dex solidity配置">
-                dex solidity配置 <i class="fa fa-chevron-right"></i>
+              <a href="/2025/09/18/web3%20js/" rel="prev" title="web3基础">
+                web3基础 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -588,9 +616,14 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image"
-                src="/assets/img/tpc.png"
-                alt="Tpc" />
+              <picture class="site-author-picture">
+                
+                  <source srcset="/assets/img/tpc-avatar.webp" type="image/webp" />
+                
+                <img class="site-author-image" itemprop="image" width="92" height="92" decoding="async"
+                  src="/assets/img/tpc.png"
+                  alt="Tpc" />
+              </picture>
             
               <p class="site-author-name" itemprop="name">Tpc</p>
               <p class="site-description motion-element" itemprop="description">我是一条想旅游的咸鱼</p>
@@ -615,7 +648,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -626,7 +659,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -669,7 +702,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text">通用代码段</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">2.</span> <span class="nav-text">1. 置剪切板</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">3.</span> <span class="nav-text">2. 文本超出使用省略号</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">4.</span> <span class="nav-text">3. 隐藏滚动条</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">5.</span> <span class="nav-text">4. H5 调起拨号盘</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">6.</span> <span class="nav-text">5. dayjs</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">7.</span> <span class="nav-text">6. vant 函数形式组件样式导入</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">8.</span> <span class="nav-text">7. axios 网络请求封装+pinia</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">9.</span> <span class="nav-text">8. 数字千分位逗号分隔</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">10.</span> <span class="nav-text">9. window.open()</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">11.</span> <span class="nav-text">9.1. 常用参数值</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">12.</span> <span class="nav-text">9.2. 参数使用示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#9-2-1-parent-和-top-示例"><span class="nav-number">12.0.1.</span> <span class="nav-text">9.2.1. _parent 和 _top 示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-2-2-blank-示例"><span class="nav-number">12.0.2.</span> <span class="nav-text">9.2.2. _blank 示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-2-3-self-示例"><span class="nav-number">12.0.3.</span> <span class="nav-text">9.2.3. _self 示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-2-4-自定义窗口名称示例"><span class="nav-number">12.0.4.</span> <span class="nav-text">9.2.4. 自定义窗口名称示例</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">13.</span> <span class="nav-text">9.3. 实际应用场景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">14.</span> <span class="nav-text">9.4. 运行效果</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">15.</span> <span class="nav-text">9.5. 注意事项</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">16.</span> <span class="nav-text">10. 封装一个准确判断数据类型的函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">17.</span> <span class="nav-text">11. 手机号前端脱敏</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">18.</span> <span class="nav-text">12. vant 分页上拉加载更多</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">19.</span> <span class="nav-text">13. Element-plus视频&#x2F;图片上传</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">20.</span> <span class="nav-text">14. webview app 手机状态栏适配</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">21.</span> <span class="nav-text">15. H5打包app的手机物理返回键问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">22.</span> <span class="nav-text">16. echart在vue3中的一个bug</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">23.</span> <span class="nav-text">17. 视频video标签</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">24.</span> <span class="nav-text">18. 禁用鼠标右键</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">25.</span> <span class="nav-text">19. 滚动条持续保持在最顶部，点击到顶部或底部</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">26.</span> <span class="nav-text">20. 移动端打开调试控制台</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">27.</span> <span class="nav-text">21. 消除 input 原生样式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">28.</span> <span class="nav-text">22. 全屏</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">29.</span> <span class="nav-text">23. 多选全选</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">30.</span> <span class="nav-text">24. validator 校验</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">31.</span> <span class="nav-text">25. 解决 js 数据精度的问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">32.</span> <span class="nav-text">26. github 拉取代码需要代理，避免频繁设置和清除代理，需要系统代理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">33.</span> <span class="nav-text">27. 旋转图片</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-number">34.</span> <span class="nav-text">28. base64</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">通用代码段</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">1. 置剪切板</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">2. 文本超出使用省略号</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">3. 隐藏滚动条</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">4. H5 调起拨号盘</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">5. dayjs</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">6. vant 函数形式组件样式导入</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">7. axios 网络请求封装+pinia</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">8. 数字千分位逗号分隔</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">9. window.open()</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">9.1. 常用参数值</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">9.2. 参数使用示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#9-2-1-parent-和-top-示例"><span class="nav-text">9.2.1. _parent 和 _top 示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-2-2-blank-示例"><span class="nav-text">9.2.2. _blank 示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-2-3-self-示例"><span class="nav-text">9.2.3. _self 示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-2-4-自定义窗口名称示例"><span class="nav-text">9.2.4. 自定义窗口名称示例</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">9.3. 实际应用场景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">9.4. 运行效果</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">9.5. 注意事项</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">10. 封装一个准确判断数据类型的函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">11. 手机号前端脱敏</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">12. vant 分页上拉加载更多</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">13. Element-plus视频&#x2F;图片上传</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">14. webview app 手机状态栏适配</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">15. H5打包app的手机物理返回键问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">16. echart在vue3中的一个bug</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">17. 视频video标签</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">18. 禁用鼠标右键</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">19. 滚动条持续保持在最顶部，点击到顶部或底部</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">20. 移动端打开调试控制台</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">21. 消除 input 原生样式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">22. 全屏</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">23. 多选全选</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">24. validator 校验</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">25. 解决 js 数据精度的问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">26. github 拉取代码需要代理，避免频繁设置和清除代理，需要系统代理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">27. 旋转图片</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#"><span class="nav-text">28. base64</span></a></li></ol></div>
             
 
           </div>
@@ -738,18 +771,6 @@
 
   
 
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
 
 
   
@@ -767,28 +788,7 @@
 
   
   
-    
-    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-  
-
-  
-  
-    <script defer type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-  
-
-  
-  
-    <script defer type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-  
-
-  
-  
-    <script defer type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script defer type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+    <script defer type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
   
 
   
@@ -804,16 +804,24 @@
 
   <script defer type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
 
-
-
-  
-  
-
-  <script defer src="/js/src/rouwan-oneko.js" data-cat="/images/rouwan-sprites.png"></script>
-
-  
   <script defer type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
-<script defer type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+  <script defer type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  <script defer src="/lib/sakuga-vfx/core.js"></script>
+  <script defer src="/js/src/sakuga-navigation.js"></script>
+
+  <script defer src="/lib/gsap/gsap.min.js"></script>
+  <script defer src="/lib/gsap/ScrollTrigger.min.js"></script>
+  <script defer src="/js/src/motion-gsap.js"></script>
+
+  
+  
 
 
 
@@ -880,8 +888,16 @@
 
   
 
-  <!-- Cloudflare Web Analytics -->
-  <script async type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "aaeb3e3cc6e347c08fbb5600fe9ee95d"}'></script>
+  <!-- Cloudflare Web Analytics (Production Only) -->
+  <script>
+    if (location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+      var cf = document.createElement('script');
+      cf.async = true;
+      cf.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+      cf.setAttribute('data-cf-beacon', '{"token": "aaeb3e3cc6e347c08fbb5600fe9ee95d"}');
+      document.body.appendChild(cf);
+    }
+  </script>
   <!-- End Cloudflare Web Analytics -->
 </body>
 </html>

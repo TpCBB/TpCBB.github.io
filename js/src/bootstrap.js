@@ -4,7 +4,7 @@ $(document).ready(function () {
 
   $(document).trigger('bootstrap:before');
 
-  NexT.utils.isMobile() && window.FastClick.attach(document.body);
+  NexT.utils.isMobile() && window.FastClick && window.FastClick.attach(document.body);
 
   NexT.utils.lazyLoadPostsImages();
 
@@ -20,6 +20,7 @@ $(document).ready(function () {
     var animateAction = isSiteNavOn ? 'slideUp' : 'slideDown';
     var animateCallback = isSiteNavOn ? 'removeClass' : 'addClass';
 
+    $(this).attr('aria-expanded', String(!isSiteNavOn));
     $siteNav.stop()[animateAction]('fast', function () {
       $siteNav[animateCallback](ON_CLASS_NAME);
     });
@@ -56,17 +57,35 @@ $(document).ready(function () {
   $(document).trigger('bootstrap:after');
 
 
+  let lastConfettiAt = 0;
   const boomConfetti = (clickEvent) => {
     if (typeof window.confetti !== 'function') return;
+    const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    if (conn && (conn.saveData || (conn.effectiveType && conn.effectiveType.includes('2g')))) return;
+    const target = clickEvent.target;
+    if (
+      target &&
+      target.closest &&
+      target.closest('a, button, input, textarea, select, summary, .sidebar-toggle, .back-to-top, .sidebar-nav, pre, code')
+    ) {
+      return;
+    }
+    if (window.getSelection && String(window.getSelection()).length > 0) return;
+    const now = performance.now();
+    if (now - lastConfettiAt < 260) return;
+    lastConfettiAt = now;
     const { clientX, clientY } = clickEvent;
     const { innerWidth, innerHeight } = window;
     const y = clientY / innerHeight;
     const x = clientX / innerWidth;
     window.confetti({
-      startVelocity: 20,
+      particleCount: 16,
+      startVelocity: 18,
       spread: 360,
-      ticks: 60,
-      zIndex: 0,
+      ticks: 40,
+      scalar: 0.85,
+      zIndex: 900,
+      disableForReducedMotion: true,
       origin: { y, x },
     });
   };
