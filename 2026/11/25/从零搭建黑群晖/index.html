@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link rel="preload" href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" /></noscript>
+
+
+
+
+
+
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+<link rel="preload" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0-swap" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+<noscript><link href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0-swap" rel="stylesheet" type="text/css" /></noscript>
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/apple-touch-icon-tpc.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon-32x32-tpc.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon-16x16-tpc.png?v=5.1.4">
+
+
+
+
+
+
+  <meta name="keywords" content="NAS,黑群晖,Home Assistant," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一台 i3-12100 小主机，既备份电脑，也管家里的灯。记下装黑群晖时遇到的重启、镜像超时、共享文件夹消失，还有一块很难忽略的企业盘。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从零搭建黑群晖：我家的 All-in-One NAS 是怎么跑起来的">
+<meta property="og:url" content="https://tpc28yo.xyz/2026/11/25/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E9%BB%91%E7%BE%A4%E6%99%96/index.html">
+<meta property="og:site_name" content="Tpc">
+<meta property="og:description" content="一台 i3-12100 小主机，既备份电脑，也管家里的灯。记下装黑群晖时遇到的重启、镜像超时、共享文件夹消失，还有一块很难忽略的企业盘。">
+<meta property="article:published_time" content="2026-11-24T16:00:00.000Z">
+<meta property="article:modified_time" content="2026-11-25T07:21:00.911Z">
+<meta property="article:author" content="Tpc">
+<meta property="article:tag" content="NAS">
+<meta property="article:tag" content="黑群晖">
+<meta property="article:tag" content="Home Assistant">
+<meta name="twitter:card" content="summary">
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"always","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://tpc28yo.xyz/2026/11/25/从零搭建黑群晖/"/>
+
+
+
+
+
+  <title>从零搭建黑群晖：我家的 All-in-One NAS 是怎么跑起来的 | Tpc</title>
+  
+
+
+
+
+
+
+
+
+  <script>
+    (function () {
+      try {
+        if (
+          window.CONFIG &&
+          CONFIG.sidebar &&
+          CONFIG.sidebar.display === 'always' &&
+          window.innerWidth >= 992 &&
+          sessionStorage.getItem('tpc-sidebar-closed') !== '1'
+        ) {
+          document.documentElement.classList.add('sidebar-preopen');
+        }
+      } catch (e) {}
+    })();
+  </script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Tpc</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Aal lzz well</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button type="button" aria-label="站点导航" aria-controls="site-nav" aria-expanded="false">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav id="site-nav" class="site-nav" aria-label="站点导航">
+  
+
+  
+    
+    
+    <ul id="menu" class="menu sakuga-nav">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section" aria-current="location">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://tpc28yo.xyz/2026/11/25/%E4%BB%8E%E9%9B%B6%E6%90%AD%E5%BB%BA%E9%BB%91%E7%BE%A4%E6%99%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Tpc">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/assets/img/tpc.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Tpc">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">从零搭建黑群晖：我家的 All-in-One NAS 是怎么跑起来的</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2026-11-25T00:00:00+08:00">
+                2026-11-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AI-%E4%B8%8E%E5%B7%A5%E5%85%B7/" data-cat="AI 与工具" itemprop="url" rel="index">
+                    <span itemprop="name">AI 与工具</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider page-pv-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+              <div class="post-description">
+                  一台 i3-12100 小主机，既备份电脑，也管家里的灯。记下装黑群晖时遇到的重启、镜像超时、共享文件夹消失，还有一块很难忽略的企业盘。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这台 NAS 还没装上系统，我就已经很熟悉它的开机画面了。引导 U 盘能认，菜单也能进，屏幕上刚跑过几行字就黑了。再一抬头，又是精粤的开机画面。</p>
+<p>我原本只是想给 Mac 和 Windows 11 找个固定的备份地方，剪视频时能从局域网取素材，平时再放几个自己写的前端项目。既然打算让它一直开着，索性把 Home Assistant 也搬进来，管管家里的灯和开关。这就是我说的 All-in-One，没想到最先难住我的是开机。</p>
+<a id="more"></a>
+<h2 id="我家这台怎么配的">我家这台怎么配的</h2>
+<ul>
+<li><strong>CPU：Intel i3-12100。</strong> 备份文件用不到这么多性能，我留的余量主要是给 Docker 和虚拟机的。</li>
+<li><strong>主板：精粤 B760i ITX。</strong> 我想把机箱做小一点，又不想在主板上花太多钱，最后选了它。</li>
+<li><strong>硬盘：希捷 ST6000NM021A 企业盘。</strong> 买的时候看重可靠性，装进机箱才知道，噪音也该算进选购条件里。</li>
+<li><strong>网络：光猫桥接，路由器拨号。</strong> 家里用有线 Mesh，NAS 接 2.5G 交换机。剪视频拉大文件时，我最能感觉到这笔钱花在哪儿。</li>
+</ul>
+<h2 id="出问题时-我会先看哪里">出问题时，我会先看哪里</h2>
+<p>下面按症状分开写，点标题展开，再点一次就能收起。尤其是重启那一项，我没法把原因钉死在某个 BIOS 开关上，所以写的是排查顺序，不是一套必须照抄的设置。</p>
+<details>
+<summary style="display:list-item;cursor:pointer"><strong>还没看到 DSM 安装界面，机器就重启了</strong></summary>
+<p>我先看一件事：黑屏之后，有没有<strong>重新出现主板的开机画面</strong>？如果有，确实是整机重启；如果只是屏幕不再输出，先去路由器看一眼设备列表。机器没起来，和机器起来了但找不到它，查的不是同一个地方。</p>
+<ol>
+<li><strong>从 BIOS 开始，一次只改一项。</strong> 先记下原设置。用 UEFI 引导时，我会先确认启动菜单里选的是 U 盘的 UEFI 启动项，再核对 CSM 和 Secure Boot。遇到引导被拦，可以试着关闭 Secure Boot；有的 BIOS 把相关选项放在 <code>OS Type → Other OS</code>。排查期间也可以暂时关掉 Fast Boot，方便看清自检过程。</li>
+<li><strong>换个 USB 口，再决定要不要换引导。</strong> 我会先试主板后置的 USB 2.0 口，排除前置接口的问题。如果仍然在同一位置重启，再拿备用 U 盘，用 Rufus 重新写入引导的 <code>.img</code>。写之前看清目标盘，别把数据盘选进去。</li>
+<li><strong>最后看引导配置和机型。</strong> 这套 i3-12100 + B760i 如果在原配置下始终过不去，SA6400 是一个可以试的机型，不代表选它就一定能好。如果机器已经不重启、只是局域网搜不到，再查网卡：确认板载网卡是不是 RTL8125，以及当前引导有没有带 <code>r8125</code> 模块。别为了一个网卡驱动，从头再调一遍 BIOS。</li>
+</ol>
+</details>
+<details>
+<summary style="display:list-item;cursor:pointer"><strong>Container Manager 拉不下 Home Assistant 镜像</strong></summary>
+<p>我这边报的是连接超时，容器都还没创建。一开始很容易顺手去改 Home Assistant 的配置，其实这时候它还没机会运行。</p>
+<p>我最后用的是局域网里的 Clash / Mihomo，让 NAS 上负责拉镜像的 Docker 服务能通过代理访问镜像仓库，再回到 Container Manager 重试，镜像就拉下来了。这里容易弄混：电脑浏览器能走代理，不代表 NAS 也能；给将来的容器填代理，也管不到眼前这次拉取。没必要为了下载一个镜像，先把全家的网络都改掉。</p>
+</details>
+<details>
+<summary style="display:list-item;cursor:pointer"><strong>File Station 里文件夹没了，空间却还占着</strong></summary>
+<p>这比拉不下镜像吓人多了。我的第一反应是看剩余容量，发现空间并没有空出来。它不能证明文件都完好，但至少这时候<strong>别格式化，也别急着删了共享文件夹重建</strong>。</p>
+<p>我会先打开「存储管理器」看卷是否正常，再去「控制面板 → 共享文件夹」找原来的名字。如果卷正常、共享也在，就对照当前账号和所属用户组的权限；如果是加密共享，再看它有没有挂载。熟悉 SSH 的话，可以只读查看对应卷上的原目录，确认几个熟悉的文件还在。查明确实是权限问题，再改那个共享的权限，不要给整卷递归放权。如果卷已经报错，就先停在这里，别把存储故障当成显示问题处理。</p>
+</details>
+<details>
+<summary style="display:list-item;cursor:pointer"><strong>想在 File Station 看夸克网盘，迅雷套件又下不动</strong></summary>
+<p>这两个问题我后来分开查。夸克的文件看不到，如果用的是 AList，就先看它能不能列出远端目录，再查 File Station 的 WebDAV 连接。迅雷能建任务但一直没速度，那是下载端的问题；就算网盘挂好了，也不会顺手把迅雷修好。</p>
+</details>
+<details>
+<summary style="display:list-item;cursor:pointer"><strong>硬盘一忙起来，怎么跟炒豆子似的？</strong></summary>
+<p>说的就是我这块希捷企业盘。读写时那阵声音，白天还能当背景音，放在安静的书房就很难不去听它。硬盘架加减震垫，可以少一点机箱跟着嗡嗡响的声音，盘本身的读写声还在。</p>
+<p>如果重新安排位置，我会先把机器放到客厅靠近网线、通风也好的地方，再决定要不要买减震配件。卧室就算了，也别为了隔音把它塞进不通风的弱电箱。</p>
+</details>
+<h2 id="现在用得最多的-反而都很普通">现在用得最多的，反而都很普通</h2>
+<p>剪视频时，Mac 接上有线网络就能从 NAS 拉素材；换到 Windows 11，备份也有固定的去处。家里的绿米 D1 零火线开关和 S1E 智控屏接进 Home Assistant 之后，这台小机箱连灯也一起管了。</p>
+<p>真要再装一台，我会把引导能正常启动时的 BIOS 设置拍下来。至于那块企业盘，不用拍照，我肯定记得把它放远点。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/NAS/" rel="tag"># NAS</a>
+          
+            <a href="/tags/%E9%BB%91%E7%BE%A4%E6%99%96/" rel="tag"># 黑群晖</a>
+          
+            <a href="/tags/Home-Assistant/" rel="tag"># Home Assistant</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2026/11/17/%E8%AE%BE%E8%AE%A1%E4%B8%80%E4%B8%AA%E6%9C%AC%E5%9C%B0AI%E9%9D%A2%E8%AF%95%E7%BB%83%E4%B9%A0%E5%B7%A5%E5%85%B7/" rel="next" title="自己做了一个 AI 面试练习工具：聊聊我怎么用 AI 辅助开发，以及手搓 SSE 流式输出">
+                <i class="fa fa-chevron-left"></i> 自己做了一个 AI 面试练习工具：聊聊我怎么用 AI 辅助开发，以及手搓 SSE 流式输出
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <picture class="site-author-picture">
+                
+                  <source srcset="/assets/img/tpc-avatar.webp" type="image/webp" />
+                
+                <img class="site-author-image" itemprop="image" width="92" height="92" decoding="async"
+                  src="/assets/img/tpc.png"
+                  alt="Tpc" />
+              </picture>
+            
+              <p class="site-author-name" itemprop="name">Tpc</p>
+              <p class="site-description motion-element" itemprop="description">我是一条想旅游的咸鱼</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+               
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/TpCBB" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#我家这台怎么配的"><span class="nav-text">我家这台怎么配的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#出问题时-我会先看哪里"><span class="nav-text">出问题时，我会先看哪里</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#现在用得最多的-反而都很普通"><span class="nav-text">现在用得最多的，反而都很普通</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2019 &mdash; <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    
+    <i class="fa fa-smile-o" aria-hidden="true"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Tpc</span>
+
+  
+</div>
+
+
+
+
+
+
+
+<div class="footer-log">
+  <a href="/archives/"><code aria-hidden="true">$ git log</code> 文章归档 <span aria-hidden="true">→</span></a>
+</div>
+
+
+
+        
+<div class="busuanzi-count">
+  <script>
+    if (location.hostname === new URL('https://tpc28yo.xyz').hostname) {
+      document.documentElement.classList.add('site-counters-enabled');
+      var counterScript = document.createElement('script');
+      counterScript.async = true;
+      counterScript.src = 'https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js';
+      document.head.appendChild(counterScript);
+    }
+  </script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script defer type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script defer type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script defer type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script defer type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+  <script defer type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+
+  <script defer type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  <script defer src="/lib/sakuga-vfx/core.js"></script>
+  <script defer src="/js/src/sakuga-navigation.js"></script>
+
+  <script defer src="/lib/gsap/gsap.min.js"></script>
+  <script defer src="/lib/gsap/ScrollTrigger.min.js"></script>
+  <script defer src="/js/src/motion-gsap.js"></script>
+
+  
+  
+
+
+
+  
+
+
+  <script defer type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4-instant"></script>
+
+
+
+  <script async src="/lib/canvas-confetti/confetti.browser.min.js?v=1.9.4"></script>
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <!-- Cloudflare Web Analytics (Production Only) -->
+  <script>
+    if (location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+      var cf = document.createElement('script');
+      cf.async = true;
+      cf.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+      cf.setAttribute('data-cf-beacon', '{"token": "aaeb3e3cc6e347c08fbb5600fe9ee95d"}');
+      document.body.appendChild(cf);
+    }
+  </script>
+  <!-- End Cloudflare Web Analytics -->
+</body>
+</html>
